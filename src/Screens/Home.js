@@ -1,13 +1,12 @@
-import React,{Component} from 'react'
-import Header from '../Components/header'
+import React, { Component } from "react";
+import Header from "../Components/header";
 
-
-export default class Home extends Component{
-    render(){
-        return(
-            <>
-            <Header/>
-       </>
-        )
-    }
+export default class Home extends Component {
+  render() {
+    return (
+      <>
+        <Header />
+      </>
+    );
+  }
 }
