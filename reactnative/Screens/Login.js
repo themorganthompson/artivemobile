@@ -5,7 +5,6 @@ import {
   View,
   Text,
   SafeAreaView,
-  Image,
   TextInput,
   Keyboard,
   TouchableOpacity,
@@ -22,9 +21,9 @@ export default class Screen extends Component {
   state = {
     phone: '',
     verificationcode: '',
-    backgroundColor: 'gray',
-    phonecolor: 'gray',
-    verificationcodecolor: 'gray',
+    backgroundColor: '"#212121',
+    phonecolor: '"#212121',
+    verificationcodecolor: '"#212121',
     loading: false,
     verificationSent: false,
     confirmCode: null,
@@ -85,6 +84,7 @@ export default class Screen extends Component {
       await this.state.confirmCode.confirm(this.state.verificationcode);
     } catch (error) {
       this.setState({error: true });
+      this.setState({verificationcodecolor: '#f8504d'});
     }
   }
 
@@ -117,19 +117,20 @@ export default class Screen extends Component {
                     top: 20,
                     position: 'relative',
                     marginRight: 15,
+                    color: "#212121"
                   }}
                 />
                 <TextInput
                   style={{
                     marginLeft: 10,
                     fontSize: 16,
-                    color: 'gray',
+                    color: '#212121',
                     paddingLeft: 28,
                     paddingBottom: 20,
                   }}
                   onChangeText={phone => this.validatePhone(phone)}
                   value={this.state.phone}
-                  placeholder={'Phone'}
+                  placeholder={'Mobile Phone Number'}
                   keyboardType="number-pad"
                   placeholderTextColor={'gray'}
                   onFocus={() => this.onFocus()}
@@ -194,7 +195,7 @@ export default class Screen extends Component {
               }
               id="submit-account">
               <Text style={styles.textstyle}>
-                {this.state.confirmCode ? 'VERIFY' : this.state.error ? 'INVALID PHONE' : 'SEND CODE'}
+                {this.state.confirmCode ? 'VERIFY' : this.state.error ? 'INVALID PHONE' : 'LOGIN'}
               </Text>
             </TouchableOpacity>
           </SafeAreaView>

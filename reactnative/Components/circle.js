@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Image } from "react-native";
-import logo from "./../assets/static/nav.png";
+import Logo from "./../assets/static/logo";
 
 export default class circle extends Component {
   render() {
@@ -15,7 +15,7 @@ export default class circle extends Component {
           display: "flex",
         }}
       >
-			<Image
+			<Logo
           style={{
             width: 80,
             height: 80,
@@ -24,9 +24,8 @@ export default class circle extends Component {
             alignContent: "center",
             borderRadius: 50,
             marginTop: 100,
-            marginBottom: 30
+            marginBottom: 45
           }}
-          source={logo}
         />
       </View>
     );
