@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import auth from '@react-native-firebase/auth';
 import validator from 'validator';
 import {
   View,
@@ -25,9 +26,28 @@ export default class Screen extends Component {
     phonecolor: 'gray',
     verificationcodecolor: 'gray',
     loading: false,
+    verificationSent: false,
+    confirmCode: null,
     error: false,
+    appVerifier: null,
     apiError: null,
+    initializing: true,
+    user: null,
   };
+
+  onAuthStateChanged(user) {
+    this.setState({ user: user });
+    if (this.state.user) {
+      this.props.navigation.navigate('Home');
+      this.setState({initializing: false});
+    }
+  }
+
+  componentDidMount() {
+    auth().onAuthStateChanged((user) => {
+      this.onAuthStateChanged(user);
+   });
+  }
 
   onFocus = () => {
     this.setState({backgroundColor: '#61dbfb', phonecolor: 'blue'});
@@ -44,51 +64,29 @@ export default class Screen extends Component {
 
   validatePhone = phone => {
     this.setState({phone: phone});
-    if (validator.isMobilePhone(phone) && !phone.includes('+') === false) {
+    if (validator.isMobilePhone(phone) && phone.length === 10) {
       this.setState({error: false});
+      this.setState({backgroundColor: 'gray'});
       this.setState({apiError: null});
     } else {
+      this.setState({backgroundColor: '#f8504d'});
       this.setState({error: true});
     }
   };
 
-  handleSubmit = () => {
-    if (this.state.verificationcode) {
-      this.setState({loading: 'true'});
-      const credential = firebase.auth.PhoneAuthProvider.credential(
-        confirmationResult,
-        verificationCode,
-      );
-      myFirebase
-        .auth()
-        .signInWithCredential(credential)
-        .then(function(result) {
-          setLoading(false);
-        })
-        .catch(function(error) {
-          setLoading(false);
-          setApiError(error.code);
-        });
-    } else {
-      setLoading(true);
-      setError(false);
-      if (validator.isMobilePhone(phone)) {
-        myFirebase
-          .auth()
-          .signInWithPhoneNumber(phone, appVerifier)
-          .then(function(confirmationResult) {
-            setVerifyCodeFlag(true);
-            setLoading(false);
-            setError(false);
-            setConfirmationResult(confirmationResult.verificationId);
-          })
-          .catch(function(error) {
-            setLoading(false);
-            setApiError(error.code);
-          });
-      }
-    }
+  async handleSubmit() {
+    let phone = '+1' + this.state.phone;
+    const confirmation = await auth().signInWithPhoneNumber(phone);
+    this.setState({confirmCode: confirmation});
   };
+
+  async confirmCode() {
+    try {
+      await this.state.confirmCode.confirm(this.state.verificationcode);
+    } catch (error) {
+      this.setState({error: true });
+    }
+  }
 
   render() {
     return (
@@ -97,91 +95,107 @@ export default class Screen extends Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
             <Circle />
-            <View
-              style={{
-                height: 50,
-                width: '70%',
-                borderColor: this.state.backgroundColor,
-                borderWidth: 1,
-                borderRadius: 3,
-                marginTop: 0,
-                marginLeft: 'auto',
-                marginBottom: 10,
-                marginRight: 'auto',
-                justifyContent: 'center',
-              }}>
-              <Phone
+            {!this.state.confirmCode ? (
+              <View
                 style={{
-                  width: 20,
-                  height: 23,
-                  left: 10,
-                  top: 20,
-                  position: 'relative',
-                  marginRight: 15,
-                }}
-              />
-              <TextInput
+                  height: 50,
+                  width: '70%',
+                  borderColor: this.state.backgroundColor,
+                  borderWidth: 1,
+                  borderRadius: 3,
+                  marginTop: 0,
+                  marginLeft: 'auto',
+                  marginBottom: 10,
+                  marginRight: 'auto',
+                  justifyContent: 'center',
+                }}>
+                <Phone
+                  style={{
+                    width: 20,
+                    height: 23,
+                    left: 10,
+                    top: 20,
+                    position: 'relative',
+                    marginRight: 15,
+                  }}
+                />
+                <TextInput
+                  style={{
+                    marginLeft: 10,
+                    fontSize: 16,
+                    color: 'gray',
+                    paddingLeft: 28,
+                    paddingBottom: 20,
+                  }}
+                  onChangeText={phone => this.validatePhone(phone)}
+                  value={this.state.phone}
+                  placeholder={'Phone'}
+                  keyboardType="number-pad"
+                  placeholderTextColor={'gray'}
+                  onFocus={() => this.onFocus()}
+                  onBlur={() => this.onBlur()}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
+            {this.state.confirmCode ? (
+              <View
                 style={{
-                  marginLeft: 10,
-                  fontSize: 16,
-                  color: 'gray',
-                  paddingLeft: 28,
-                  paddingBottom: 20,
-                }}
-                onChangeText={phone => this.validatePhone(phone)}
-                value={this.state.phone}
-                placeholder={'Phone'}
-                keyboardType="numeric"
-                placeholderTextColor={'gray'}
-                onFocus={() => this.onFocus()}
-                onBlur={() => this.onBlur()}
-              />
-            </View>
-            {this.state.phone && !this.state.error ? 
-            <View
-              style={{
-                height: 50,
-                width: '70%',
-                marginTop: 0,
-                marginBottom: 20,
-                borderColor: this.state.verificationcodecolor,
-                borderWidth: 1,
-                borderRadius: 3,
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                justifyContent: 'center',
-              }}>
-              <Security
-                style={{
-                  width: 20,
-                  height: 23,
-                  left: 13,
-                  top: 18,
-                  position: 'relative',
-                  marginRight: 15,
-                }}
-              />
-              <TextInput
-                style={{
-                  marginLeft: 10,
-                  fontSize: 16,
-                  color: 'gray',
-                  paddingLeft: 28,
-                  paddingBottom: 15,
-                }}
-                onChangeText={verificationcode =>
-                  this.setState({verificationcode})
-                }
-                value={this.state.verificationcode}
-                placeholder={'Verification Code'}
-                keyboardType="phone-pad"
-                placeholderTextColor={'gray'}
-                onFocus={() => this.onFocus1()}
-                onBlur={() => this.onBlur1()}
-              />
-            </View> : null }
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.textstyle}>LOGIN</Text>
+                  height: 50,
+                  width: '70%',
+                  marginTop: 0,
+                  marginBottom: 20,
+                  borderColor: this.state.verificationcodecolor,
+                  borderWidth: 1,
+                  borderRadius: 3,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                  justifyContent: 'center',
+                }}>
+                <Security
+                  style={{
+                    width: 20,
+                    height: 23,
+                    left: 13,
+                    top: 18,
+                    position: 'relative',
+                    marginRight: 15,
+                  }}
+                />
+                <TextInput
+                  style={{
+                    marginLeft: 10,
+                    fontSize: 16,
+                    color: 'gray',
+                    paddingLeft: 28,
+                    paddingBottom: 15,
+                  }}
+                  onChangeText={verificationcode =>
+                    this.setState({verificationcode})
+                  }
+                  value={this.state.verificationcode}
+                  placeholder={'Verification Code'}
+                  keyboardType="number-pad"
+                  placeholderTextColor={'gray'}
+                  onFocus={() => this.onFocus1()}
+                  onBlur={() => this.onBlur1()}
+                />
+              </View>
+            ) : (
+              <View />
+            )}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                this.state.confirmCode
+                  ? this.confirmCode()
+                  : this.handleSubmit()
+              }
+              id="submit-account">
+              <Text style={styles.textstyle}>
+                {this.state.confirmCode ? 'VERIFY' : this.state.error ? 'INVALID PHONE' : 'SEND CODE'}
+              </Text>
             </TouchableOpacity>
           </SafeAreaView>
         </TouchableWithoutFeedback>
