@@ -6,8 +6,8 @@ export default class InformationScreen extends Component{
     render(){
         return(
            <>
-                <Header/>
-           </>
+                <Header title={"Information"} />
+           </> 
         )
     }
 }

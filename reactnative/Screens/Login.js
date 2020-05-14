@@ -1,70 +1,71 @@
-import React, { Component } from "react";
-import validator from "validator";
+import React, {Component} from 'react';
+import validator from 'validator';
 import {
   View,
   Text,
   SafeAreaView,
+  Image,
   TextInput,
   Keyboard,
   TouchableOpacity,
   TouchableWithoutFeedback,
   StyleSheet,
-} from "react-native";
+} from 'react-native';
 
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import Header from "../Components/header";
-import Circle from "../Components/circle";
+import phone from "../assets/static/phone.png";
+import Security from "../assets/static/security";
+import Header from '../Components/header';
+import Circle from '../Components/circle';
 
 export default class Screen extends Component {
   state = {
-    phone: "",
-    verificationcode: "",
-    backgroundColor: "#212121",
-    phonecolor: "#212121",
-    verificationcodecolor: "#212121",
+    phone: '',
+    verificationcode: '',
+    backgroundColor: '#212121',
+    phonecolor: '#212121',
+    verificationcodecolor: '#212121',
     loading: false,
     error: false,
-    apiError: null
+    apiError: null,
   };
 
   onFocus = () => {
-    this.setState({ backgroundColor: "#61dbfb", phonecolor: "blue" });
+    this.setState({backgroundColor: '#61dbfb', phonecolor: 'blue'});
   };
   onBlur = () => {
-    this.setState({ backgroundColor: "gray", phonecolor: "black" });
+    this.setState({backgroundColor: 'gray', phonecolor: 'black'});
   };
   onFocus1 = () => {
-    this.setState({ verificationcodecolor: "#61dbfb" });
+    this.setState({verificationcodecolor: '#61dbfb'});
   };
   onBlur1 = () => {
-    this.setState({ verificationcodecolor: "gray" });
+    this.setState({verificationcodecolor: 'gray'});
   };
 
-  validatePhone = (phone) => {
-    this.setState({ phone: phone });
-    if (validator.isMobilePhone(phone) && !phone.includes("+") === false) {
-      this.setState({ error: false });
-      this.setState({ apiError: null });
+  validatePhone = phone => {
+    this.setState({phone: phone});
+    if (validator.isMobilePhone(phone) && !phone.includes('+') === false) {
+      this.setState({error: false});
+      this.setState({apiError: null});
     } else {
-      this.setState({ error: true });
+      this.setState({error: true});
     }
   };
 
-
   handleSubmit = () => {
     if (this.state.verificationcode) {
-      this.setState({ loading: "true" });
+      this.setState({loading: 'true'});
       const credential = firebase.auth.PhoneAuthProvider.credential(
         confirmationResult,
-        verificationCode
+        verificationCode,
       );
       myFirebase
         .auth()
         .signInWithCredential(credential)
-        .then(function (result) {
+        .then(function(result) {
           setLoading(false);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           setLoading(false);
           setApiError(error.code);
         });
@@ -75,13 +76,13 @@ export default class Screen extends Component {
         myFirebase
           .auth()
           .signInWithPhoneNumber(phone, appVerifier)
-          .then(function (confirmationResult) {
+          .then(function(confirmationResult) {
             setVerifyCodeFlag(true);
             setLoading(false);
             setError(false);
             setConfirmationResult(confirmationResult.verificationId);
           })
-          .catch(function (error) {
+          .catch(function(error) {
             setLoading(false);
             setApiError(error.code);
           });
@@ -92,31 +93,31 @@ export default class Screen extends Component {
   render() {
     return (
       <>
-        <Header />
+        <Header title={'Login'} />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
+          <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
             <Circle />
 
             <View
               style={{
                 height: 50,
-                width: "70%",
+                width: '70%',
                 borderColor: this.state.backgroundColor,
                 borderWidth: 1,
                 borderRadius: 3,
-                marginLeft: "auto",
+                marginLeft: 'auto',
                 marginBottom: 10,
-                marginRight: "auto",
-                justifyContent: "center",
-              }}
-            >
+                marginRight: 'auto',
+                justifyContent: 'center',
+              }}>
+                <Image source={phone} style={{ width:20, height: 23, left: 10, top: 20, position: "relative", marginRight: 15}}/>
               <TextInput
-                style={{ marginLeft: 10, fontSize: 16, color: "gray" }}
-                onChangeText={(phone) => validatePhone(phone)}
+                style={{marginLeft: 10, fontSize: 16, color: 'gray', paddingLeft: 25, paddingBottom: 20}}
+                onChangeText={phone => this.validatePhone(phone)}
                 value={this.state.phone}
                 placeholder={"Phone"}
                 keyboardType="numeric"
-                placeholderTextColor={"gray"}
+                placeholderTextColor={'gray'}
                 onFocus={() => this.onFocus()}
                 onBlur={() => this.onBlur()}
               />
@@ -124,26 +125,26 @@ export default class Screen extends Component {
             <View
               style={{
                 height: 50,
-                width: "70%",
+                width: '70%',
                 marginTop: 0,
                 marginBottom: 20,
                 borderColor: this.state.verificationcodecolor,
                 borderWidth: 1,
                 borderRadius: 3,
-                marginLeft: "auto",
-                marginRight: "auto",
-                justifyContent: "center",
-              }}
-            >
+                marginLeft: 'auto',
+                marginRight: 'auto',
+                justifyContent: 'center',
+              }}>
+                <Security style={{ width:20, height: 23, left: 10, top: 20, position: "relative", marginRight: 15}}/>
               <TextInput
-                style={{ marginLeft: 10, fontSize: 16, color: "gray" }}
-                onChangeText={(verificationcode) =>
-                  this.setState({ verificationcode })
+                style={{marginLeft: 10, fontSize: 16, color: 'gray', paddingLeft: 25, paddingBottom: 20}}
+                onChangeText={verificationcode =>
+                  this.setState({verificationcode})
                 }
                 value={this.state.verificationcode}
-                placeholder={"Verification Code"}
+                placeholder={'Verification Code'}
                 keyboardType="phone-pad"
-                placeholderTextColor={"gray"}
+                placeholderTextColor={'gray'}
                 onFocus={() => this.onFocus1()}
                 onBlur={() => this.onBlur1()}
               />
@@ -167,20 +168,20 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   emailuppertextbox: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     width: 70,
     height: 25,
     top: 15,
     marginLeft: 20,
-    flexDirection: "row",
+    flexDirection: 'row',
     zIndex: 10,
   },
-  emailicon: { alignItems: "center", justifyContent: "center" },
+  emailicon: {alignItems: 'center', justifyContent: 'center'},
   emailupperboxtextcontainer: {
     marginLeft: 5,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   verificationcodecontainer: {
     marginTop: 0,
@@ -188,33 +189,33 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   verificationcodelabel: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     width: 140,
     height: 30,
     top: 15,
     marginLeft: 20,
-    flexDirection: "row",
+    flexDirection: 'row',
     zIndex: 10,
   },
-  verificationcodelabelIcon: { alignItems: "center", justifyContent: "center" },
+  verificationcodelabelIcon: {alignItems: 'center', justifyContent: 'center'},
   verificationcodecontainertext: {
     marginLeft: 5,
-    display: "flex",
+    display: 'flex',
     marginTop: 0,
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: 3,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   button: {
-    marginLeft: "auto",
-    marginRight: "auto",
+    marginLeft: 'auto',
+    marginRight: 'auto',
     height: 50,
-    width: "70%",
-    backgroundColor: "#f8504d",
+    width: '70%',
+    backgroundColor: '#f8504d',
     borderRadius: 3,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  textstyle: { fontSize: 14, color: "white", fontWeight: "bold" },
+  textstyle: {fontSize: 14, color: 'white', fontWeight: 'bold'},
 });
