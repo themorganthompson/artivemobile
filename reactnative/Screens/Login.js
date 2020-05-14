@@ -12,8 +12,8 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import phone from "../assets/static/phone.png";
-import Security from "../assets/static/security";
+import Phone from '../assets/static/phone';
+import Security from '../assets/static/security';
 import Header from '../Components/header';
 import Circle from '../Components/circle';
 
@@ -21,9 +21,9 @@ export default class Screen extends Component {
   state = {
     phone: '',
     verificationcode: '',
-    backgroundColor: '#212121',
-    phonecolor: '#212121',
-    verificationcodecolor: '#212121',
+    backgroundColor: 'gray',
+    phonecolor: 'gray',
+    verificationcodecolor: 'gray',
     loading: false,
     error: false,
     apiError: null,
@@ -97,7 +97,6 @@ export default class Screen extends Component {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
           <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
             <Circle />
-
             <View
               style={{
                 height: 50,
@@ -105,23 +104,40 @@ export default class Screen extends Component {
                 borderColor: this.state.backgroundColor,
                 borderWidth: 1,
                 borderRadius: 3,
+                marginTop: 0,
                 marginLeft: 'auto',
                 marginBottom: 10,
                 marginRight: 'auto',
                 justifyContent: 'center',
               }}>
-                <Image source={phone} style={{ width:20, height: 23, left: 10, top: 20, position: "relative", marginRight: 15}}/>
+              <Phone
+                style={{
+                  width: 20,
+                  height: 23,
+                  left: 10,
+                  top: 20,
+                  position: 'relative',
+                  marginRight: 15,
+                }}
+              />
               <TextInput
-                style={{marginLeft: 10, fontSize: 16, color: 'gray', paddingLeft: 25, paddingBottom: 20}}
+                style={{
+                  marginLeft: 10,
+                  fontSize: 16,
+                  color: 'gray',
+                  paddingLeft: 28,
+                  paddingBottom: 20,
+                }}
                 onChangeText={phone => this.validatePhone(phone)}
                 value={this.state.phone}
-                placeholder={"Phone"}
+                placeholder={'Phone'}
                 keyboardType="numeric"
                 placeholderTextColor={'gray'}
                 onFocus={() => this.onFocus()}
                 onBlur={() => this.onBlur()}
               />
             </View>
+            {this.state.phone && !this.state.error ? 
             <View
               style={{
                 height: 50,
@@ -135,9 +151,24 @@ export default class Screen extends Component {
                 marginRight: 'auto',
                 justifyContent: 'center',
               }}>
-                <Security style={{ width:20, height: 23, left: 10, top: 20, position: "relative", marginRight: 15}}/>
+              <Security
+                style={{
+                  width: 20,
+                  height: 23,
+                  left: 13,
+                  top: 18,
+                  position: 'relative',
+                  marginRight: 15,
+                }}
+              />
               <TextInput
-                style={{marginLeft: 10, fontSize: 16, color: 'gray', paddingLeft: 25, paddingBottom: 20}}
+                style={{
+                  marginLeft: 10,
+                  fontSize: 16,
+                  color: 'gray',
+                  paddingLeft: 28,
+                  paddingBottom: 15,
+                }}
                 onChangeText={verificationcode =>
                   this.setState({verificationcode})
                 }
@@ -148,7 +179,7 @@ export default class Screen extends Component {
                 onFocus={() => this.onFocus1()}
                 onBlur={() => this.onBlur1()}
               />
-            </View>
+            </View> : null }
             <TouchableOpacity style={styles.button}>
               <Text style={styles.textstyle}>LOGIN</Text>
             </TouchableOpacity>
@@ -214,6 +245,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8504d',
     borderRadius: 3,
     display: 'flex',
+    marginTop: 12,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -57,7 +57,7 @@ export const BottomTabNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <View>
-            <Text>Profile</Text>
+            <Text>Login</Text>
             <Text
               style={{
                 color: tintColor,
@@ -82,11 +82,12 @@ export const BottomTabNavigator = createBottomTabNavigator(
     tabBarOptions: {
       showLabel: false,
       activeTintColor: "#61dbfb",
-      inactiveTintColor: "#212121",
+      inactiveTintColor: "white",
       style: {
+        borderTopWidth: 0,
         height: 60,
         paddingTop: 10,
-        backgroundColor: "#212121",
+        backgroundColor: "white",
       },
     },
   }
