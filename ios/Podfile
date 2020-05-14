@@ -3,7 +3,6 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 
 target 'ratemyshot' do
   # Pods for ratemyshot
-  pod 'Firebase/Analytics'
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
@@ -40,26 +39,13 @@ target 'ratemyshot' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
-  pod 'RNI18n', :path => '../node_modules/react-native-i18n'
-
-  target 'ratemyshotTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
+  post_install do |installer|
+     installer.pods_project.targets.each do |target|
+       targets_to_ignore = %w(React yoga)
+       if targets_to_ignore.include? target.name
+         target.remove_from_project
+       end
+     end
+   end
   use_native_modules!
-end
-
-target 'ratemyshot-tvOS' do
-  # Pods for ratemyshot-tvOS
-
-  target 'ratemyshot-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
