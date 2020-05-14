@@ -7,7 +7,7 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import login from "./src/Screens/Login";
 import Home from "./src/Screens/Home";
-import InfromationScreen from "./src/Screens/InformationScreen";
+import Information from "./src/Screens/Information";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 
 export const BottomTabNavigator = createBottomTabNavigator(
@@ -33,7 +33,7 @@ export const BottomTabNavigator = createBottomTabNavigator(
       },
     },
     InfromationScreen: {
-      screen: InfromationScreen,
+      screen: Information,
       navigationOptions: {
         tabBarIcon: ({ tintColor }) => (
           <View>

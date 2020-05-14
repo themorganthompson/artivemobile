@@ -1,7 +1,9 @@
 {
+  "name": "ratemyshot",
+  "displayName": "ratemyshot",
   "expo": {
-    "name": "project",
-    "slug": "project",
+    "name": "ratemyshot",
+    "slug": "ratemyshot",
     "platforms": [
       "ios",
       "android",
