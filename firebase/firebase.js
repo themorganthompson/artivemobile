@@ -1,4 +1,8 @@
-import firebase from '@react-native-firebase/app';
-import firebaseConfig from "./firebase-config";
+// import firebase from '@react-native-firebase/app';
+import firebase from "firebase";
+import config from "./config";
+// import db from '@react-native-firebase/database';
 
-export default myFirebase = firebase.initializeApp(firebaseConfig);
+ app = firebase.initializeApp(config);
+
+export default app;

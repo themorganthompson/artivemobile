@@ -6,7 +6,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {connect} from 'react-redux';
 import Login from './Screens/Login';
 import Post from './Screens/Post';
-import Home from './Screens/Home';
+import HomeComponent from './Screens/Home';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Posts from './assets/static/posts';
 import Trophy from './assets/static/trophy';
@@ -63,6 +63,7 @@ function MyTabs(props) {
 
           return (
             <TouchableOpacity
+              key={route.key}
               accessibilityRole="button"
               accessibilityStates={isFocused ? ['selected'] : []}
               accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -81,7 +82,7 @@ function MyTabs(props) {
                 alignItems: 'center',
                 paddingBottom: 50,
               }}>
-              <View style={{backgroundColor: 'green'}}>
+              <View >
                 {route.name === 'Home' ? (
                   <Posts fill={isFocused ? '#f8504d' : '#222'} />
                 ) : route.name === 'Post' ? (
@@ -100,7 +101,7 @@ function MyTabs(props) {
   return (
     <NavigationContainer>
       <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Home" component={HomeComponent} />
         <Tab.Screen name="Post" component={Post} />
         <Tab.Screen name="Contest" component={Contests} />
       </Tab.Navigator>
