@@ -1,0 +1,6 @@
+module Pods_ratemyshot_ratemyshotTests {
+  umbrella header "Pods-ratemyshot-ratemyshotTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
