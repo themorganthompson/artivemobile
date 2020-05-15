@@ -34,7 +34,7 @@ class Login extends Component {
     appVerifier: null,
     apiError: null,
     initializing: true,
-    user: null,
+    user: {},
   };
 
   onAuthStateChanged(user) {
@@ -47,13 +47,16 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    if (this.state.user) {
-      this.props.navigation.navigate('Home');
-    }
-
     auth().onAuthStateChanged(user => {
       this.onAuthStateChanged(user);
     });
+  }
+
+  componentDidUpdate() {
+    if (this.state.user) {
+      Creators.success(this.state.user);
+      this.props.navigation.navigate('Home');
+    }
   }
 
   onFocus = () => {
