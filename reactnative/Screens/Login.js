@@ -1,6 +1,9 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import auth from '@react-native-firebase/auth';
 import validator from 'validator';
+import {connect} from 'react-redux';
+import {Creators} from '../Components/redux';
 import {
   View,
   Text,
@@ -17,7 +20,7 @@ import Security from '../assets/static/security';
 import Header from '../Components/header';
 import Circle from '../Components/circle';
 
-export default class Screen extends Component {
+class Login extends Component {
   state = {
     phone: '',
     verificationcode: '',
@@ -35,17 +38,22 @@ export default class Screen extends Component {
   };
 
   onAuthStateChanged(user) {
-    this.setState({ user: user });
+    this.setState({user: user});
     if (this.state.user) {
+      Creators.success(user);
       this.props.navigation.navigate('Home');
       this.setState({initializing: false});
     }
   }
 
   componentDidMount() {
-    auth().onAuthStateChanged((user) => {
+    if (this.state.user) {
+      this.props.navigation.navigate('Home');
+    }
+
+    auth().onAuthStateChanged(user => {
       this.onAuthStateChanged(user);
-   });
+    });
   }
 
   onFocus = () => {
@@ -77,13 +85,13 @@ export default class Screen extends Component {
     let phone = '+1' + this.state.phone;
     const confirmation = await auth().signInWithPhoneNumber(phone);
     this.setState({confirmCode: confirmation});
-  };
+  }
 
   async confirmCode() {
     try {
       await this.state.confirmCode.confirm(this.state.verificationcode);
     } catch (error) {
-      this.setState({error: true });
+      this.setState({error: true});
       this.setState({verificationcodecolor: '#f8504d'});
     }
   }
@@ -93,7 +101,7 @@ export default class Screen extends Component {
       <>
         <Header title={'Login'} />
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-          <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+          <SafeAreaView style={{flex: 1}}>
             <Circle />
             {!this.state.confirmCode ? (
               <View
@@ -117,7 +125,7 @@ export default class Screen extends Component {
                     top: 20,
                     position: 'relative',
                     marginRight: 15,
-                    color: "#212121"
+                    color: '#212121',
                   }}
                 />
                 <TextInput
@@ -195,7 +203,11 @@ export default class Screen extends Component {
               }
               id="submit-account">
               <Text style={styles.textstyle}>
-                {this.state.confirmCode ? 'VERIFY' : this.state.error ? 'INVALID PHONE' : 'LOGIN'}
+                {this.state.confirmCode
+                  ? 'VERIFY'
+                  : this.state.error
+                  ? 'INVALID PHONE'
+                  : 'LOGIN'}
               </Text>
             </TouchableOpacity>
           </SafeAreaView>
@@ -204,6 +216,17 @@ export default class Screen extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  console.log(state);
+  return {
+    user: state.user,
+    fetching: state.fetching,
+    error: state.error,
+  };
+}
+
+export default connect(mapStateToProps)(Login);
 
 const styles = StyleSheet.create({
   emailcontainer: {

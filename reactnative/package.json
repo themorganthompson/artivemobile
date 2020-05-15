@@ -18,6 +18,8 @@
     "@react-native-firebase/app": "^7.0.1",
     "@react-native-firebase/auth": "^7.0.1",
     "@react-native-firebase/database": "^7.0.1",
+    "@react-navigation/bottom-tabs": "^5.4.4",
+    "@react-navigation/native": "^5.3.2",
     "jquery": "^3.5.1",
     "material-design-icons": "^3.0.1",
     "material-ui": "^0.19.4",
@@ -45,10 +47,14 @@
     "react-native-web": "~0.11.7",
     "react-navigation": "^4.3.9",
     "react-navigation-tabs": "^2.8.13",
+    "react-redux": "^7.2.0",
     "react-router": "3.0.0",
     "react-router-dom": "^5.1.2",
     "react-scrollable-anchor": "^0.6.1",
     "react-star-ratings": "^2.3.0",
+    "redux": "^4.0.5",
+    "reduxsauce": "^1.1.2",
+    "seamless-immutable": "^7.1.4",
     "validator": "^13.0.0"
   },
   "devDependencies": {

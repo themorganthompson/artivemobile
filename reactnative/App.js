@@ -1,91 +1,119 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
-import {View, Text} from 'react-native';
-import {createAppContainer} from 'react-navigation';
-import {createBottomTabNavigator} from 'react-navigation-tabs';
-
-import login from './Screens/Login';
+import auth from '@react-native-firebase/auth';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {connect} from 'react-redux';
+import Login from './Screens/Login';
+import Post from './Screens/Post';
 import Home from './Screens/Home';
-import Information from './Screens/Information';
+import {View, Text, TouchableOpacity} from 'react-native';
+import Posts from './assets/static/posts';
+import Trophy from './assets/static/trophy';
+import Camera from './assets/static/camera';
+import Contests from './Screens/Contests';
+import {Creators} from './Components/redux';
 
-export const BottomTabNavigator = createBottomTabNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        tabBarIcon: ({tintColor}) => (
-          <View>
-            <Text>Home</Text>
-            <Text
+const Tab = createBottomTabNavigator();
+
+function MyTabs(props) {
+  const {dispatch} = props;
+  const [user, setUser] = useState(props.user);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onAuthStateChanged = requestUser => {
+    if (requestUser) {
+      dispatch(Creators.success(requestUser));
+      setUser(requestUser);
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line no-shadow
+    auth().onAuthStateChanged(user => {
+      onAuthStateChanged(user);
+    });
+  }, [onAuthStateChanged, props.user, user]);
+
+  function MyTabBar({state, descriptors, navigation}) {
+    return (
+      <View style={{flexDirection: 'row'}}>
+        {state.routes.map((route, index) => {
+          const {options} = descriptors[route.key];
+          const isFocused = state.index === index;
+
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+            }
+          };
+
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key,
+            });
+          };
+
+          return (
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityStates={isFocused ? ['selected'] : []}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
               style={{
-                color: tintColor,
+                flex: 1,
+                height: 60,
+                width: 100,
+                paddingLeft: 50,
+                paddingTop: 20,
+                marginBottom: 20,
+                paddingRight: 50,
                 textAlign: 'center',
-                fontSize: 14,
-                fontWeight: 'bold',
+                alignItems: 'center',
+                paddingBottom: 50,
               }}>
-              .
-            </Text>
-          </View>
-        ),
-      },
-    },
-    InfromationScreen: {
-      screen: Information,
-      navigationOptions: {
-        tabBarIcon: ({tintColor}) => (
-          <View>
-            <Text>Info</Text>
-            <Text
-              style={{
-                color: tintColor,
-                textAlign: 'center',
-                fontSize: 14,
-                fontWeight: 'bold',
-              }}>
-              .
-            </Text>
-          </View>
-        ),
-      },
-    },
+              <View style={{backgroundColor: 'green'}}>
+                {route.name === 'Home' ? (
+                  <Posts fill={isFocused ? '#f8504d' : '#222'} />
+                ) : route.name === 'Post' ? (
+                  <Camera fill={isFocused ? '#f8504d' : '#222'} />
+                ) : route.name === 'Contest' ? (
+                  <Trophy fill={isFocused ? '#f8504d' : '#222'} />
+                ) : null}
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  }
 
-    screen1: {
-      screen: login,
-      navigationOptions: {
-        tabBarIcon: ({tintColor}) => (
-          <View>
-             <Text>Login</Text>
-            <Text
-              style={{
-                color: tintColor,
-                textAlign: 'center',
-                fontSize: 14,
-                fontWeight: 'bold',
-              }}>
-              .
-            </Text>
-          </View>
-        ),
-      },
-    },
-  },
-  {
-    initialRouteName: 'Home',
-    tabBarLabel: () => {
-      return null;
-    },
+  return (
+    <NavigationContainer>
+      <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Post" component={Post} />
+        <Tab.Screen name="Contest" component={Contests} />
+      </Tab.Navigator>
+    </NavigationContainer>
+  );
+}
 
-    tabBarOptions: {
-      showLabel: false,
-      activeTintColor: '#61dbfb',
-      inactiveTintColor: 'white',
-      style: {
-        borderTopWidth: 0,
-        height: 60,
-        paddingTop: 10,
-        backgroundColor: 'white',
-      },
-    },
-  },
-);
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+    fetching: state.fetching,
+    error: state.error,
+  };
+}
 
-export default createAppContainer(BottomTabNavigator);
+export default connect(mapStateToProps)(MyTabs);
