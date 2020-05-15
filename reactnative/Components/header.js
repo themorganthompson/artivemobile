@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {StatusBar, View, Text} from 'react-native';
-import Help from '../assets/static/help';
+import Menu from '../assets/static/menu';
 
 export default class header extends Component {
   render() {
@@ -17,13 +17,14 @@ export default class header extends Component {
             overflow: 'hidden',
             paddingBottom: 0,
           }}>
-          <Help
+          <Menu
+            fill="white"
             style={{
-              width: 24,
-              height: 24,
+              width: 28,
+              height: 28,
               position: 'absolute',
-              marginRight: 15,
-              right: 20,
+              marginRight: 10,
+              right: 10,
               color: '#212121',
             }}
           />
