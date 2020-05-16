@@ -10,7 +10,6 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@material-ui/core": "^4.9.13",
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.52",
     "@react-native-community/masked-view": "^0.1.10",
@@ -23,7 +22,6 @@
     "firebase": "^7.14.4",
     "jquery": "^3.5.1",
     "material-design-icons": "^3.0.1",
-    "material-ui": "^0.19.4",
     "material-ui-popup-state": "^1.5.4",
     "moment": "^2.25.3",
     "rc-progress": "^2.5.3",

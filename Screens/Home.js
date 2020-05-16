@@ -6,7 +6,10 @@ import {
   Text,
   Image,
   SafeAreaView,
+  Share,
   ScrollView,
+  TouchableHighlight,
+  ActionSheetIOS
 } from "react-native";
 
 const Posts = (props) => {
@@ -14,6 +17,25 @@ const Posts = (props) => {
   let ordered = [];
   const [posts, setPosts] = useState([]);
   const [postLoading, setPostLoading] = useState(true);
+
+  const onShare = async () => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ["Cancel", "Do Something", "Reset"],
+        destructiveButtonIndex: 2,
+        cancelButtonIndex: 0
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          // cancel action
+        } else if (buttonIndex === 1) {
+          setResult(Math.floor(Math.random() * 100) + 1);
+        } else if (buttonIndex === 2) {
+          setResult("🔮");
+        }
+      }
+    );
+  };
 
   const getPosts = async (mounted) => {
     await firebase
@@ -78,20 +100,32 @@ const Posts = (props) => {
   );
 
   return (
-    <SafeAreaView style={{marginBottom: 110}}>
+    <SafeAreaView style={{ marginBottom: 110 }}>
       <ScrollView>
-        {postLoading ? 
-         <ActivityIndicator style={{marginTop: "80%"}} size="large" color="#e93a50" /> : 
-        posts.length > 0 ? (
+        {postLoading ? (
+          <ActivityIndicator
+            style={{ marginTop: "80%" }}
+            size="large"
+            color="#e93a50"
+          />
+        ) : posts.length > 0 ? (
           posts.map((post, i) => {
             return (
-              <Image
-                key={post.key}
-                style={{ height: 300, width: "90%", margin: 20, borderRadius: 4}}
-                source={{
-                  uri: post.imageLink,
-                }}
-              />
+              <TouchableHighlight onPress={onShare} underlayColor="white" style={{backgroundColor: "white"}}>
+                <Image
+                  key={post.key}
+                  onp={onShare}
+                  style={{
+                    height: 300,
+                    width: "90%",
+                    margin: 20,
+                    borderRadius: 4,
+                  }}
+                  source={{
+                    uri: post.imageLink,
+                  }}
+                />
+              </TouchableHighlight>
             );
           })
         ) : (
