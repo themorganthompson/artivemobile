@@ -4,7 +4,6 @@ import auth from '@react-native-firebase/auth';
 const isLoggedIn = (props) => {
   const [user, setUser] = useState(null);
   const [initializing, setInitializing] = useState(true);
-  console.log("hello?");
 
  function onAuthStateChanged(user) {
     setUser(user);
@@ -16,7 +15,6 @@ const isLoggedIn = (props) => {
   }
 
   auth().onAuthStateChanged((user) => {
-    console.log(user)
     return onAuthStateChanged(user);
   });
 };

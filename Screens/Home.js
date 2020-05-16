@@ -21,7 +21,7 @@ const Posts = (props) => {
   const onShare = async () => {
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        options: ["Cancel", "Do Something", "Reset"],
+        options: ["Cancel", "Do Somethinggit ", "Reset"],
         destructiveButtonIndex: 2,
         cancelButtonIndex: 0
       },
@@ -111,7 +111,7 @@ const Posts = (props) => {
         ) : posts.length > 0 ? (
           posts.map((post, i) => {
             return (
-              <TouchableHighlight onPress={onShare} underlayColor="white" style={{backgroundColor: "white"}}>
+              <TouchableHighlight key={i} onPress={onShare} underlayColor="white" style={{backgroundColor: "white"}}>
                 <Image
                   key={post.key}
                   onp={onShare}

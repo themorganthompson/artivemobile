@@ -37,8 +37,6 @@ export const request = (state, action) => {
 };
 
 export const success = (state, action) => {
-  console.log(action);
-  console.log('action');
   return state.setState({fetching: false, error: null, user: action});
 };
 
