@@ -1,41 +1,56 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState, useEffect, useRef } from "react";
 import Header from "../Components/header";
+import Moment from "moment";
 import firebase from "../firebase/firebase";
+import Collapse from "../assets/static/collapse";
 import {
   ActivityIndicator,
   Text,
+  StyleSheet,
   Image,
   SafeAreaView,
-  Share,
   ScrollView,
+  View,
   TouchableHighlight,
-  ActionSheetIOS
+  Animated,
 } from "react-native";
+
+var styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    zIndex: 124095,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5FCFF",
+    marginTop: 66,
+  },
+  button: {
+    padding: 8,
+  },
+  buttonText: {
+    fontSize: 17,
+    color: "#007AFF",
+  },
+  subView: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "#FFFFFF",
+    height: 650,
+  },
+});
 
 const Posts = (props) => {
   let postz = [];
   let ordered = [];
   const [posts, setPosts] = useState([]);
+  const [ratePost, setRatePost] = useState(null);
   const [postLoading, setPostLoading] = useState(true);
-
-  const onShare = async () => {
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        options: ["Cancel", "Do Somethinggit ", "Reset"],
-        destructiveButtonIndex: 2,
-        cancelButtonIndex: 0
-      },
-      buttonIndex => {
-        if (buttonIndex === 0) {
-          // cancel action
-        } else if (buttonIndex === 1) {
-          setResult(Math.floor(Math.random() * 100) + 1);
-        } else if (buttonIndex === 2) {
-          setResult("🔮");
-        }
-      }
-    );
-  };
+  const bounceValue = useRef(new Animated.Value(0)).current;
+  const [toValue, setToValue] = useState(0);
+  const [buttonText, setButtonText] = useState("Show Subview");
+  const [hidden, setHidden] = useState(true);
 
   const getPosts = async (mounted) => {
     await firebase
@@ -99,40 +114,115 @@ const Posts = (props) => {
     [posts]
   );
 
+  const toggleSubview = (post) => {
+    setHidden(!hidden);
+    setRatePost(post);
+    if (!hidden) {
+      setToValue(0);
+    } else {
+      setToValue(650);
+    }
+
+    Animated.spring(bounceValue, {
+      velocity: 3,
+      tension: 2,
+      friction: 8,
+      toValue: toValue,
+      useNativeDriver: true,
+    }).start(() => {});
+  };
+
   return (
-    <SafeAreaView style={{ marginBottom: 110 }}>
-      <ScrollView>
-        {postLoading ? (
-          <ActivityIndicator
-            style={{ marginTop: "80%" }}
-            size="large"
-            color="#e93a50"
-          />
-        ) : posts.length > 0 ? (
-          posts.map((post, i) => {
-            return (
-              <TouchableHighlight key={i} onPress={onShare} underlayColor="white" style={{backgroundColor: "white"}}>
-                <Image
-                  key={post.key}
-                  onp={onShare}
-                  style={{
-                    height: 300,
-                    width: "90%",
-                    margin: 20,
-                    borderRadius: 4,
-                  }}
-                  source={{
-                    uri: post.imageLink,
-                  }}
-                />
-              </TouchableHighlight>
-            );
-          })
-        ) : (
-          <Text>There are no posts to display</Text>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{ marginBottom: 110, zIndex: 1 }}>
+        <ScrollView style={{ zIndex: 1 }}>
+          {postLoading ? (
+            <ActivityIndicator
+              style={{ marginTop: "80%" }}
+              size="large"
+              color="#e93a50"
+            />
+          ) : posts.length > 0 ? (
+            posts.map((post, i) => {
+              return (
+                <TouchableHighlight
+                  key={i}
+                  underlayColor="#f0f0f0"
+                  onPress={() => toggleSubview(post)}
+                >
+                  <Image
+                    key={post.key}
+                    style={{
+                      height: 300,
+                      width: "90%",
+                      margin: 20,
+                      borderRadius: 4,
+                    }}
+                    source={{
+                      uri: post.imageLink,
+                    }}
+                  />
+                </TouchableHighlight>
+              );
+            })
+          ) : (
+            <Text>There are no posts to display</Text>
+          )}
+        </ScrollView>
+      </SafeAreaView>
+      <View style={styles.container}>
+        <Animated.View
+          style={[styles.subView, { transform: [{ translateY: bounceValue }] }]}
+        >
+          <TouchableHighlight
+            underlayColor="white"
+            style={styles.button}
+            onPress={() => {
+              toggleSubview();
+            }}
+          >
+            <>
+              <Collapse fill="#f8504d" width={28} style={{ marginLeft: 8 }} />
+              <Text
+                style={{
+                  position: "absolute",
+                  width: 100,
+                  color: "#f8504d",
+                  fontSize: 18,
+                  top: 8,
+                  marginLeft: "44%",
+                  marginRight: "auto",
+                }}
+              >
+                Critique
+              </Text>
+            </>
+          </TouchableHighlight>
+          <Text
+            style={{
+              marginLeft: 20,
+              marginTop: 10,
+              fontSize: 16,
+              fontWeight: "600",
+            }}
+          >
+            {ratePost ? ratePost.caption : "A Caption Would Go Here"}
+          </Text>
+          <Text style={{ marginLeft: 20, fontSize: 11 }}>
+            {ratePost
+              ? Moment(new Date(ratePost.submitted)).format("MMMM D, YYYY")
+              : null}{" "}
+          </Text>
+          {ratePost ? 
+            <Image
+              style={{ position: "absolute", width:132, top: 58, right: 20, height:88 }}
+              source={{
+                uri: ratePost.imageLink
+              }}
+            /> : null }
+        </Animated.View>
+      </View>
+    </>
   );
 };
 
