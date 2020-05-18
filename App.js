@@ -31,7 +31,6 @@ function MyTabs(props) {
   useEffect(() => {
     // eslint-disable-next-line no-shadow
     auth().onAuthStateChanged((thisuser) => {
-      console.log(thisuser);
       onAuthStateChanged(thisuser);
     });
   }, [onAuthStateChanged, props.user, user]);
@@ -102,7 +101,7 @@ function MyTabs(props) {
 
   return (
     <NavigationContainer>
-      {props.user ? (
+      {user ? (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
           <Tab.Screen name="Home" component={HomeComponent} />
           <Tab.Screen name="Post" component={Post} />
@@ -111,7 +110,6 @@ function MyTabs(props) {
         )
        : (
         <Tab.Navigator tabBar={(props) => <View />}>
-          <Tab.Screen name="Home" component={HomeComponent} />
           <Tab.Screen name="Login" component={Login} />
         </Tab.Navigator>
       )}
@@ -120,9 +118,8 @@ function MyTabs(props) {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
-    user: state.user,
+    user: state,
     fetching: state.fetching,
     error: state.error,
   };

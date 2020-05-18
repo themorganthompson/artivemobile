@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   ScrollView,
   View,
+  Actions,
   TouchableHighlight,
   Animated,
 } from "react-native";
@@ -51,6 +52,7 @@ const Posts = (props) => {
   const [toValue, setToValue] = useState(0);
   const [buttonText, setButtonText] = useState("Show Subview");
   const [hidden, setHidden] = useState(true);
+  let preFetchTasks = [];
 
   const getPosts = async (mounted) => {
     await firebase
@@ -134,7 +136,7 @@ const Posts = (props) => {
 
   return (
     <>
-      <SafeAreaView style={{ marginBottom: 110, zIndex: 1 }}>
+      <SafeAreaView style={{ marginBottom: 140, zIndex: 1 }}>
         <ScrollView style={{ zIndex: 1 }}>
           {postLoading ? (
             <ActivityIndicator
@@ -170,58 +172,70 @@ const Posts = (props) => {
           )}
         </ScrollView>
       </SafeAreaView>
-      <View style={styles.container}>
-        <Animated.View
-          style={[styles.subView, { transform: [{ translateY: bounceValue }] }]}
-        >
-          <TouchableHighlight
-            underlayColor="white"
-            style={styles.button}
-            onPress={() => {
-              toggleSubview();
-            }}
+      {!hidden ? (
+        <View style={styles.container}>
+          <Animated.View
+            style={[
+              styles.subView,
+              { transform: [{ translateY: bounceValue }] },
+            ]}
           >
-            <>
-              <Collapse fill="#f8504d" width={28} style={{ marginLeft: 8 }} />
-              <Text
+            <TouchableHighlight
+              underlayColor="white"
+              style={styles.button}
+              onPress={() => {
+                toggleSubview();
+              }}
+            >
+              <>
+                <Collapse fill="#f8504d" width={28} style={{ marginLeft: 8 }} />
+                <Text
+                  style={{
+                    position: "absolute",
+                    width: 100,
+                    color: "#f8504d",
+                    fontSize: 18,
+                    top: 8,
+                    marginLeft: "44%",
+                    marginRight: "auto",
+                  }}
+                >
+                  Critique
+                </Text>
+              </>
+            </TouchableHighlight>
+            <Text
+              style={{
+                marginLeft: 20,
+                marginTop: 10,
+                fontSize: 16,
+                fontWeight: "600",
+              }}
+            >
+              {ratePost ? ratePost.caption : "A Caption Would Go Here"}
+            </Text>
+            <Text style={{ marginLeft: 20, fontSize: 11 }}>
+              {ratePost
+                ? Moment(new Date(ratePost.submitted)).format("MMMM D, YYYY")
+                : null}{" "}
+            </Text>
+            {ratePost ? (
+              <Image
                 style={{
                   position: "absolute",
-                  width: 100,
-                  color: "#f8504d",
-                  fontSize: 18,
-                  top: 8,
-                  marginLeft: "44%",
-                  marginRight: "auto",
+                  width: 132,
+                  top: 58,
+                  right: 20,
+                  height: 88,
                 }}
-              >
-                Critique
-              </Text>
-            </>
-          </TouchableHighlight>
-          <Text
-            style={{
-              marginLeft: 20,
-              marginTop: 10,
-              fontSize: 16,
-              fontWeight: "600",
-            }}
-          >
-            {ratePost ? ratePost.caption : "A Caption Would Go Here"}
-          </Text>
-          <Text style={{ marginLeft: 20, fontSize: 11 }}>
-            {ratePost
-              ? Moment(new Date(ratePost.submitted)).format("MMMM D, YYYY")
-              : null}{" "}
-          </Text>
-          {ratePost ? 
-            <Image
-              style={{ position: "absolute", width:132, top: 58, right: 20, height:88 }}
-              source={{
-                uri: ratePost.imageLink
-              }}
-            /> : null }
-        </Animated.View>
-      </View>
+                source={{
+                  uri: ratePost.imageLink,
+                }}
+              />
+            ) : null}
+          </Animated.View>
+        </View>
+      ) : null}
     </>
   );
 };

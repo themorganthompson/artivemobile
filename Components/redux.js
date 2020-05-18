@@ -1,24 +1,16 @@
-import {createReducer, createActions} from 'reduxsauce';
-import Immutable from 'seamless-immutable';
+import { createReducer, createActions } from "reduxsauce";
+import Immutable from "seamless-immutable";
 
-// const Types = createTypes(`
-//   USER_REQUEST
-//   USER_FAILURE
-//   USER_SUCCESS
-//   `);
-
-const {Types, Creators} = createActions(
+const { Types, Creators } = createActions(
   {
-    request: ['user'],
-    success: ['user'],
-    failure: ['error'],
-    // logout: null,
-    // custom: (a, b) => ({ type: 'CUSTOM', total: a + b })
+    request: ["fetching", "error", "user"],
+    success: ["fetching", "error", "user"],
+    failure: ["fetching", "error", "user"],
   },
-  {},
+  {}
 );
 
-export {Creators};
+export { Creators };
 
 export const HANDLERS = {
   [Types.SUCCESS]: success,
@@ -33,15 +25,16 @@ export const INITIAL_STATE = Immutable({
 });
 
 export const request = (state, action) => {
-  state.setState({fetching: true, user: action});
+  state.setState({ fetching: true, user: action });
 };
 
 export const success = (state, action) => {
-  return state.setState({fetching: false, error: null, user: action});
+  console.log(action);
+  return state.setState({ fetching: false, error: null, user: action });
 };
 
 export const failure = (state, action) => {
-  state.setState({fetching: false, error: true, user: null});
+  state.setState({ fetching: false, error: true, user: null });
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);
