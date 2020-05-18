@@ -1,27 +1,27 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
-import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {connect} from 'react-redux';
-import Login from './Screens/Login';
-import Post from './Screens/Post';
-import HomeComponent from './Screens/Home';
-import {View, Text, TouchableOpacity} from 'react-native';
-import Posts from './assets/static/posts';
-import Trophy from './assets/static/trophy';
-import Camera from './assets/static/camera';
-import ContestsComponent from './Screens/Contests';
-import {Creators} from './Components/redux';
+import React, { useState, useEffect } from "react";
+import auth from "@react-native-firebase/auth";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { connect } from "react-redux";
+import Login from "./Screens/Login";
+import Post from "./Screens/Post";
+import HomeComponent from "./Screens/Home";
+import { View, Text, TouchableOpacity } from "react-native";
+import Posts from "./assets/static/posts";
+import Trophy from "./assets/static/trophy";
+import Camera from "./assets/static/camera";
+import ContestsComponent from "./Screens/Contests";
+import { Creators } from "./Components/redux";
 
 const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
-  const {dispatch} = props;
+  const { dispatch } = props;
   const [user, setUser] = useState(props.user);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const onAuthStateChanged = requestUser => {
+  const onAuthStateChanged = (requestUser) => {
     if (requestUser) {
       dispatch(Creators.success(requestUser));
       setUser(requestUser);
@@ -30,21 +30,22 @@ function MyTabs(props) {
 
   useEffect(() => {
     // eslint-disable-next-line no-shadow
-    auth().onAuthStateChanged(user => {
-      onAuthStateChanged(user);
+    auth().onAuthStateChanged((thisuser) => {
+      console.log(thisuser);
+      onAuthStateChanged(thisuser);
     });
   }, [onAuthStateChanged, props.user, user]);
 
-  function MyTabBar({state, descriptors, navigation}) {
+  function MyTabBar({ state, descriptors, navigation }) {
     return (
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: "row" }}>
         {state.routes.map((route, index) => {
-          const {options} = descriptors[route.key];
+          const { options } = descriptors[route.key];
           const isFocused = state.index === index;
 
           const onPress = () => {
             const event = navigation.emit({
-              type: 'tabPress',
+              type: "tabPress",
               target: route.key,
               canPreventDefault: true,
             });
@@ -56,7 +57,7 @@ function MyTabs(props) {
 
           const onLongPress = () => {
             navigation.emit({
-              type: 'tabLongPress',
+              type: "tabLongPress",
               target: route.key,
             });
           };
@@ -65,7 +66,7 @@ function MyTabs(props) {
             <TouchableOpacity
               key={route.key}
               accessibilityRole="button"
-              accessibilityStates={isFocused ? ['selected'] : []}
+              accessibilityStates={isFocused ? ["selected"] : []}
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
               onPress={onPress}
@@ -78,17 +79,18 @@ function MyTabs(props) {
                 paddingTop: 20,
                 marginBottom: 20,
                 paddingRight: 50,
-                textAlign: 'center',
-                alignItems: 'center',
+                textAlign: "center",
+                alignItems: "center",
                 paddingBottom: 50,
-              }}>
-              <View >
-                {route.name === 'Home' || route.name === 'Login' ? (
-                  <Posts fill={isFocused ? '#f8504d' : '#222'} />
-                ) : route.name === 'Post' ? (
-                  <Camera fill={isFocused ? '#f8504d' : '#222'} />
-                ) : route.name === 'Contests' ? (
-                  <Trophy fill={isFocused ? '#f8504d' : '#222'} />
+              }}
+            >
+              <View>
+                {route.name === "Home" || route.name === "Login" ? (
+                  <Posts fill={isFocused ? "#f8504d" : "#222"} />
+                ) : route.name === "Post" ? (
+                  <Camera fill={isFocused ? "#f8504d" : "#222"} />
+                ) : route.name === "Contests" ? (
+                  <Trophy fill={isFocused ? "#f8504d" : "#222"} />
                 ) : null}
               </View>
             </TouchableOpacity>
@@ -100,18 +102,25 @@ function MyTabs(props) {
 
   return (
     <NavigationContainer>
-      {props.user ? 
-       <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-         {!prop.user ? <Tab.Screen name="Login" component={Login} />
-        : <Tab.Screen name="Home" component={HomeComponent} /> }
-        <Tab.Screen name="Post" component={Post} />
-        <Tab.Screen name="Contests" component={ContestsComponent} />
-      </Tab.Navigator> :  <Tab.Navigator tabBar={props =><View></View>}><Tab.Screen name="Login" component={Login} /></Tab.Navigator>}
+      {props.user ? (
+        <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
+          <Tab.Screen name="Home" component={HomeComponent} />
+          <Tab.Screen name="Post" component={Post} />
+          <Tab.Screen name="Contests" component={ContestsComponent} />
+        </Tab.Navigator> 
+        )
+       : (
+        <Tab.Navigator tabBar={(props) => <View />}>
+          <Tab.Screen name="Home" component={HomeComponent} />
+          <Tab.Screen name="Login" component={Login} />
+        </Tab.Navigator>
+      )}
     </NavigationContainer>
   );
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
     user: state.user,
     fetching: state.fetching,
