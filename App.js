@@ -11,6 +11,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import Posts from "./assets/static/posts";
 import Trophy from "./assets/static/trophy";
 import Camera from "./assets/static/camera";
+import Home from "./assets/static/home";
 import ContestsComponent from "./Screens/Contests";
 import { Creators } from "./Components/redux";
 
@@ -85,7 +86,7 @@ function MyTabs(props) {
             >
               <View>
                 {route.name === "Home" || route.name === "Login" ? (
-                  <Posts fill={isFocused ? "#f8504d" : "#222"} />
+                  <Home fill={isFocused ? "#f8504d" : "#222"} />
                 ) : route.name === "Post" ? (
                   <Camera fill={isFocused ? "#f8504d" : "#222"} />
                 ) : route.name === "Contests" ? (

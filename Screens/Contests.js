@@ -24,7 +24,6 @@ const Contests = (props) => {
       .ref("contests/")
       .on("value", (snapshot) => {
         if (snapshot.val()) {
-          console.log(snapshot.val());
           contestz.push(snapshot.val());
           let keys = Object.keys(contestz[0]);
           let result = Object.keys(contestz[0]).map(function(key) {

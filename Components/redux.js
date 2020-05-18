@@ -3,9 +3,9 @@ import Immutable from "seamless-immutable";
 
 const { Types, Creators } = createActions(
   {
-    request: ["fetching", "error", "user"],
-    success: ["fetching", "error", "user"],
-    failure: ["fetching", "error", "user"],
+    request: ["user"],
+    success: ["user"],
+    failure: ["user"],
   },
   {}
 );
@@ -24,17 +24,20 @@ export const INITIAL_STATE = Immutable({
   error: null,
 });
 
+export const user = state => {
+  return state
+}
+
 export const request = (state, action) => {
-  state.setState({ fetching: true, user: action });
+  state.merge({ fetching: true });
 };
 
 export const success = (state, action) => {
-  console.log(action);
-  return state.setState({ fetching: false, error: null, user: action });
+  return state.merge({ fetching: false, error: null, user: action });
 };
 
 export const failure = (state, action) => {
-  state.setState({ fetching: false, error: true, user: null });
+  state.merge({ fetching: false, error: true, user: null });
 };
 
 export default createReducer(INITIAL_STATE, HANDLERS);

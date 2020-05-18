@@ -3,6 +3,7 @@ import Header from "../Components/header";
 import Moment from "moment";
 import firebase from "../firebase/firebase";
 import Collapse from "../assets/static/collapse";
+import { Spring, useSpring, animated as An } from "react-spring/native";
 import {
   ActivityIndicator,
   Text,
@@ -13,7 +14,6 @@ import {
   View,
   Actions,
   TouchableHighlight,
-  Animated,
 } from "react-native";
 
 var styles = StyleSheet.create({
@@ -32,27 +32,36 @@ var styles = StyleSheet.create({
     fontSize: 17,
     color: "#007AFF",
   },
-  subView: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "white",
-    height: 650,
-  },
 });
 
 const Posts = (props) => {
   let postz = [];
   let ordered = [];
   const [posts, setPosts] = useState([]);
+  const [greetingStatus, displayGreeting] = useState(false);
+  const contentProps = useSpring({
+    to: async (next, cancel) => {
+      await next({ opacity: 1, bottom: 0 });
+      await next({ opacity: 0, bottom: -650 });
+    },
+    from: {
+      opacity: 0,
+      position: "absolute",
+      left: 0,
+      right: 0,
+      backgroundColor: "white",
+      height: 650,
+    },
+  });
   const [ratePost, setRatePost] = useState(null);
   const [postLoading, setPostLoading] = useState(true);
-  const bounceValue = useRef(new Animated.Value(0)).current;
-  const [toValue, setToValue] = useState(0);
   const [buttonText, setButtonText] = useState("Show Subview");
   const [hidden, setHidden] = useState(true);
-  let preFetchTasks = [];
+
+  const togglePost = (post) => {
+    setRatePost(post);
+    displayGreeting(!greetingStatus);
+  };
 
   const getPosts = async (mounted) => {
     await firebase
@@ -116,24 +125,6 @@ const Posts = (props) => {
     [posts]
   );
 
-  const toggleSubview = (post) => {
-    setHidden(!hidden);
-    setRatePost(post);
-    if (!hidden) {
-      setToValue(0);
-    } else {
-      setToValue(650);
-    }
-
-    Animated.spring(bounceValue, {
-      velocity: 3,
-      tension: 2,
-      friction: 8,
-      toValue: toValue,
-      useNativeDriver: true,
-    }).start(() => {});
-  };
-
   return (
     <>
       <SafeAreaView style={{ marginBottom: 140, zIndex: 1 }}>
@@ -150,7 +141,7 @@ const Posts = (props) => {
                 <TouchableHighlight
                   key={i}
                   underlayColor="#f0f0f0"
-                  onPress={() => toggleSubview(post)}
+                  onPress={() => togglePost(post)}
                 >
                   <Image
                     key={post.key}
@@ -172,19 +163,14 @@ const Posts = (props) => {
           )}
         </ScrollView>
       </SafeAreaView>
-      {!hidden ? (
+      {!greetingStatus ? null : (
         <View style={styles.container}>
-          <Animated.View
-            style={[
-              styles.subView,
-              { transform: [{ translateY: bounceValue }] },
-            ]}
-          >
+          <An.View style={contentProps}>
             <TouchableHighlight
               underlayColor="white"
               style={styles.button}
               onPress={() => {
-                toggleSubview();
+                togglePost(null);
               }}
             >
               <>
@@ -233,9 +219,9 @@ const Posts = (props) => {
                 }}
               />
             ) : null}
-          </Animated.View>
+          </An.View>
         </View>
-      ) : null}
+      )}
     </>
   );
 };
