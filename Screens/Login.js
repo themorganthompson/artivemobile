@@ -61,8 +61,6 @@ class Login extends Component {
       Creators.success(this.state.user);
       this.props.navigation.navigate("Home");
     }
-    
-    console.log(this.state.verificationcode);
   }
 
   onFocus = () => {
@@ -97,7 +95,6 @@ class Login extends Component {
   }
 
   async confirmCode() {
-    console.log(this.state.verificationcode);
     try {
       await this.state.confirmCode.confirm(this.state.verificationcode);
     } catch (error) {
