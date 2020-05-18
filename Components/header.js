@@ -17,7 +17,7 @@ export default class header extends Component {
             overflow: 'hidden',
             paddingBottom: 0,
           }}>
-          <Menu
+          {/* <Menu
             fill="white"
             style={{
               width: 28,
@@ -27,7 +27,7 @@ export default class header extends Component {
               right: 10,
               color: '#212121',
             }}
-          />
+          /> */}
           <Text
             style={{
               fontSize: 30,

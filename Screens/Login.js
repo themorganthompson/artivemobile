@@ -14,15 +14,16 @@ import {
   TouchableWithoutFeedback,
   StyleSheet,
 } from "react-native";
-
-import Phone from "../assets/static/phone";
 import Arrow from "../assets/static/arrow";
-import Security from "../assets/static/security";
 import VerificationCodeComponent from "./VerificationCode.js";
 import Header from "../Components/header";
 import Circle from "../Components/circle";
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     phone: "",
     verificationcode: "",
@@ -39,7 +40,7 @@ class Login extends Component {
     user: {},
     ref: {},
   };
-
+  
   onAuthStateChanged(user) {
     this.setState({ user: user });
     if (this.state.user) {
@@ -60,6 +61,8 @@ class Login extends Component {
       Creators.success(this.state.user);
       this.props.navigation.navigate("Home");
     }
+    
+    console.log(this.state.verificationcode);
   }
 
   onFocus = () => {
@@ -94,6 +97,7 @@ class Login extends Component {
   }
 
   async confirmCode() {
+    console.log(this.state.verificationcode);
     try {
       await this.state.confirmCode.confirm(this.state.verificationcode);
     } catch (error) {
@@ -116,7 +120,51 @@ class Login extends Component {
             style={{ backgroundColor: "#FFFFFF" }}
           >
             <Circle />
-            {this.state.confirmCode ? (
+           {!this.state.confirmCode ? <>
+            <Text
+              style={{
+                fontSize: 18,
+                margin: 0,
+                padding: 0,
+                textAlign: "center",
+              }}
+            >
+              Enjoy a <Text style={{ fontWeight: "700" }}>no-bullshit</Text>{" "}
+              creative
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                marginBottom: 20,
+                padding: 0,
+                textAlign: "center",
+              }}
+            >
+              experience today!
+            </Text></> : (<>
+            <Text
+              style={{
+                fontSize: 18,
+                margin: 0,
+                padding: 0,
+                textAlign: "center",
+              }}
+            >
+              Enter the <Text style={{ fontWeight: "700" }}>6 digit code</Text>{" "}
+              sent
+            </Text>
+            <Text
+              style={{
+                fontSize: 18,
+                marginBottom: 0,
+                padding: 0,
+                textAlign: "center",
+              }}
+            >
+              to your mobile phone.
+            </Text></>)}
+
+            {!this.state.confirmCode ? (
               <View
                 style={{
                   height: 50,
@@ -126,24 +174,28 @@ class Login extends Component {
                   borderWidth: 2,
                   color: "black",
                   borderRadius: 3,
-                  marginTop: 0,
+                  marginTop: 5,
                   marginLeft: "auto",
                   marginBottom: 10,
                   marginRight: "auto",
                   justifyContent: "center",
                 }}
               >
-                <Phone
+                <Text
                   style={{
-                    width: 20,
+                    width: 24,
                     height: 23,
                     left: 10,
-                    top: 22,
+                    top: 22.5,
+                    fontSize: 18,
+                    fontWeight: "700",
                     position: "relative",
                     marginRight: 15,
                     color: "#DD5A5A",
                   }}
-                />
+                >
+                  + 1{" "}
+                </Text>
                 <TextInput
                   style={{
                     marginLeft: 10,
@@ -164,7 +216,7 @@ class Login extends Component {
             ) : (
               <View />
             )}
-            {!this.state.confirmCode ? (
+            {this.state.confirmCode ? (
               <View
                 style={{
                   height: 50,
@@ -177,25 +229,12 @@ class Login extends Component {
                   justifyContent: "center",
                 }}
               >
-                <VerificationCodeComponent />
-                {/* <TextInput
-                  style={{
-                    marginLeft: 10,
-                    fontSize: 16,
-                    color: "black",
-                    paddingLeft: 28,
-                    paddingBottom: 15,
+                <VerificationCodeComponent
+                  onChangeText={(value) => {
+                    this.setState({ verificationcode: value });
                   }}
-                  onChangeText={(verificationcode) =>
-                    this.setState({ verificationcode })
-                  }
-                  value={this.state.verificationcode}
-                  placeholder={"Verification Code"}
-                  keyboardType="number-pad"
-                  placeholderTextColor={"gray"}
-                  onFocus={() => this.onFocus1()}
-                  onBlur={() => this.onBlur1()}
-                /> */}
+                  {...this.props}
+                />
               </View>
             ) : (
               <View />
@@ -211,7 +250,7 @@ class Login extends Component {
             >
               <Text style={styles.textstyle}>
                 {this.state.confirmCode ? (
-                  "VERIFY"
+                  <Arrow fill="white" style={{ marginTop: 25 }} />
                 ) : this.state.error ? (
                   "INVALID PHONE"
                 ) : (
@@ -238,7 +277,7 @@ export default connect(mapStateToProps)(Login);
 
 const styles = StyleSheet.create({
   emailcontainer: {
-    marginTop: 5,
+    marginTop: 25,
     height: 90,
     marginHorizontal: 20,
     marginBottom: 0,
@@ -293,7 +332,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#DD5A5A",
     borderRadius: 3,
     display: "flex",
-    marginTop: 28,
+    marginTop: 10,
     alignItems: "center",
     justifyContent: "center",
   },

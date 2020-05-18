@@ -13,9 +13,9 @@ import {
 } from "react-native";
 
 const styles = StyleSheet.create({
-  root: {flex: 1, padding: 10, marginBottom: 20},
+  root: {flex: 1, padding: 10, marginBottom: 20, marginTop: 10},
   title: {textAlign: 'center', fontSize: 30},
-  codeFiledRoot: {marginTop: 20, width: "100%", marginLeft: -39},
+  codeFiledRoot: {marginTop: 0, width: "100%", marginLeft: -39},
   cell: {
     width: 48,
     height: 48,
@@ -34,21 +34,30 @@ const styles = StyleSheet.create({
   },
 });
 
-const VerificationCode = () => {
+const VerificationCode = props => {
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: 6});
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+  let [_props = props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
+
+  useEffect(() => {
+   _props = props;
+  },[props]) 
+
+  const updateCode = (code) => {
+    setValue(code);
+    props.onChangeText(code);
+  }
   
   return (
     <SafeAreaView style={styles.root}>
-      <CodeField
+     <CodeField
         ref={ref}
-        {...props}
+        {..._props}
         value={value}
-        onChangeText={setValue}
+        onChangeText={(value) => updateCode(value)}
         cellCount={6}
         rootStyle={styles.codeFiledRoot}
         keyboardType="number-pad"

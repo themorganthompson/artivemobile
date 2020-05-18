@@ -100,9 +100,9 @@ function MyTabs(props) {
 
   return (
     <NavigationContainer>
-      {user ? 
+      {props.user ? 
        <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-         {!user ? <Tab.Screen name="Login" component={Login} />
+         {!prop.user ? <Tab.Screen name="Login" component={Login} />
         : <Tab.Screen name="Home" component={HomeComponent} /> }
         <Tab.Screen name="Post" component={Post} />
         <Tab.Screen name="Contests" component={ContestsComponent} />
