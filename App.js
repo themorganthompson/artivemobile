@@ -8,7 +8,6 @@ import Login from "./Screens/Login";
 import Post from "./Screens/Post";
 import HomeComponent from "./Screens/Home";
 import { View, Text, TouchableOpacity } from "react-native";
-import Posts from "./assets/static/posts";
 import Trophy from "./assets/static/trophy";
 import Camera from "./assets/static/camera";
 import Home from "./assets/static/home";
@@ -19,7 +18,14 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
   const { dispatch } = props;
+  const [greetingStatus, displayGreeting] = useState(false);
+  const [ratePost, setRatePost] = useState({});
   const [user, setUser] = useState(props.user);
+
+  const togglePost = (post) => {
+    setRatePost(post);
+    displayGreeting(!greetingStatus);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onAuthStateChanged = (requestUser) => {
@@ -84,7 +90,7 @@ function MyTabs(props) {
                 paddingBottom: 50,
               }}
             >
-              <View>
+              <View  style={{display: !greetingStatus ? "flex" : "none"}}>
                 {route.name === "Home" || route.name === "Login" ? (
                   <Home fill={isFocused ? "#f8504d" : "#222"} />
                 ) : route.name === "Post" ? (
@@ -100,16 +106,23 @@ function MyTabs(props) {
     );
   }
 
+  function HomeScreen() {
+    return (
+      <>
+        <HomeComponent togglePost={(post) => togglePost(post)} />
+      </>
+    );
+  }
+
   return (
     <NavigationContainer>
       {user ? (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-          <Tab.Screen name="Home" component={HomeComponent} />
+          <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Post" component={Post} />
           <Tab.Screen name="Contests" component={ContestsComponent} />
-        </Tab.Navigator> 
-        )
-       : (
+        </Tab.Navigator>
+      ) : (
         <Tab.Navigator tabBar={(props) => <View />}>
           <Tab.Screen name="Login" component={Login} />
         </Tab.Navigator>

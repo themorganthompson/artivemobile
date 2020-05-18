@@ -2,68 +2,26 @@ import React, { Component, useState, useEffect, useRef } from "react";
 import Header from "../Components/header";
 import Moment from "moment";
 import firebase from "../firebase/firebase";
-import Collapse from "../assets/static/collapse";
-import { Spring, useSpring, animated as An } from "react-spring/native";
+import RateSheetComponent from "./RateSheet";
+import FastImage from "react-native-fast-image";
 import {
   ActivityIndicator,
   Text,
-  StyleSheet,
-  Image,
   SafeAreaView,
   ScrollView,
   View,
-  Actions,
   TouchableHighlight,
+  AsyncStorage,
 } from "react-native";
-
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    zIndex: 124095,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#F5FCFF",
-    marginTop: 66,
-  },
-  button: {
-    padding: 8,
-  },
-  buttonText: {
-    fontSize: 17,
-    color: "#007AFF",
-  },
-});
 
 const Posts = (props) => {
   let postz = [];
   let ordered = [];
   const [posts, setPosts] = useState([]);
-  const [greetingStatus, displayGreeting] = useState(false);
-  const contentProps = useSpring({
-    to: async (next, cancel) => {
-      await next({ opacity: 1, bottom: 0 });
-      await next({ opacity: 0, bottom: -650 });
-    },
-    from: {
-      opacity: 0,
-      position: "absolute",
-      left: 0,
-      right: 0,
-      backgroundColor: "white",
-      height: 650,
-    },
-  });
-  const [ratePost, setRatePost] = useState(null);
   const [postLoading, setPostLoading] = useState(true);
-  const [buttonText, setButtonText] = useState("Show Subview");
-  const [hidden, setHidden] = useState(true);
-
-  const togglePost = (post) => {
-    setRatePost(post);
-    displayGreeting(!greetingStatus);
-  };
 
   const getPosts = async (mounted) => {
+    setPostLoading(true);
     await firebase
       .database()
       .ref("posts/")
@@ -110,15 +68,33 @@ const Posts = (props) => {
       });
 
     if (mounted) {
-      setPosts(ordered);
+      setLocalPosts(ordered);
     }
     return ordered;
   };
 
+  async function getLocalPosts(mounted) {
+    const value = JSON.parse(await AsyncStorage.getItem("posts"));
+    if (value && value.length > 0) {
+      setPosts(value);
+      setTimeout(() => {
+        setPostLoading(false);
+      }, 500);
+    } else {
+      getPosts(mounted);
+    }
+  }
+
+  async function setLocalPosts(list) {
+    setPosts(list);
+    setPostLoading(false);
+    await AsyncStorage.setItem("posts", JSON.stringify(list));
+  }
+
   useEffect(
     () => {
       let mounted = true;
-      getPosts(mounted);
+      getLocalPosts(mounted);
       return () => (mounted = false);
     },
     // eslint-disable-next-line
@@ -131,8 +107,9 @@ const Posts = (props) => {
         <ScrollView style={{ zIndex: 1 }}>
           {postLoading ? (
             <ActivityIndicator
-              style={{ marginTop: "80%" }}
+              style={{ marginTop: "70%", height: 35 }}
               size="large"
+              underlayColor="#f0f0f0"
               color="#e93a50"
             />
           ) : posts.length > 0 ? (
@@ -141,87 +118,32 @@ const Posts = (props) => {
                 <TouchableHighlight
                   key={i}
                   underlayColor="#f0f0f0"
-                  onPress={() => togglePost(post)}
+                  // onPress={() => props.togglePost(post)}
                 >
-                  <Image
+                  <FastImage
                     key={post.key}
                     style={{
                       height: 300,
                       width: "90%",
                       margin: 20,
-                      borderRadius: 4,
+                      borderRadius: 5,
                     }}
+                    resizeMode={FastImage.resizeMode.cover}
                     source={{
                       uri: post.imageLink,
+                      priority: FastImage.priority.normal,
                     }}
                   />
                 </TouchableHighlight>
               );
             })
           ) : (
-            <Text>There are no posts to display</Text>
+            <View underlayColor="#f0f0f0">
+              <Text>There are no posts to display</Text>
+            </View>
           )}
         </ScrollView>
       </SafeAreaView>
-      {!greetingStatus ? null : (
-        <View style={styles.container}>
-          <An.View style={contentProps}>
-            <TouchableHighlight
-              underlayColor="white"
-              style={styles.button}
-              onPress={() => {
-                togglePost(null);
-              }}
-            >
-              <>
-                <Collapse fill="#f8504d" width={28} style={{ marginLeft: 8 }} />
-                <Text
-                  style={{
-                    position: "absolute",
-                    width: 100,
-                    color: "#f8504d",
-                    fontSize: 18,
-                    top: 8,
-                    marginLeft: "44%",
-                    marginRight: "auto",
-                  }}
-                >
-                  Critique
-                </Text>
-              </>
-            </TouchableHighlight>
-            <Text
-              style={{
-                marginLeft: 20,
-                marginTop: 10,
-                fontSize: 16,
-                fontWeight: "600",
-              }}
-            >
-              {ratePost ? ratePost.caption : "A Caption Would Go Here"}
-            </Text>
-            <Text style={{ marginLeft: 20, fontSize: 11 }}>
-              {ratePost
-                ? Moment(new Date(ratePost.submitted)).format("MMMM D, YYYY")
-                : null}{" "}
-            </Text>
-            {ratePost ? (
-              <Image
-                style={{
-                  position: "absolute",
-                  width: 132,
-                  top: 58,
-                  right: 20,
-                  height: 88,
-                }}
-                source={{
-                  uri: ratePost.imageLink,
-                }}
-              />
-            ) : null}
-          </An.View>
-        </View>
-      )}
     </>
   );
 };
@@ -231,7 +153,12 @@ export default class HomeComponent extends Component {
     return (
       <>
         <Header title={"Home"} />
-        <Posts />
+        <Posts {...this.props} />
+        {/* <RateSheetComponent
+          togglePost={() => this.props.togglePost()}
+          greetingStatus={this.props.greetingStatus}
+          ratePost={this.props.ratePost}
+        /> */}
       </>
     );
   }
