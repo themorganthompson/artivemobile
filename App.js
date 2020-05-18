@@ -10,7 +10,6 @@ import HomeComponent from './Screens/Home';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Posts from './assets/static/posts';
 import Trophy from './assets/static/trophy';
-import Account from './assets/static/account';
 import Camera from './assets/static/camera';
 import ContestsComponent from './Screens/Contests';
 import {Creators} from './Components/redux';
@@ -84,14 +83,12 @@ function MyTabs(props) {
                 paddingBottom: 50,
               }}>
               <View >
-                {route.name === 'Home' ? (
+                {route.name === 'Home' || route.name === 'Login' ? (
                   <Posts fill={isFocused ? '#f8504d' : '#222'} />
                 ) : route.name === 'Post' ? (
                   <Camera fill={isFocused ? '#f8504d' : '#222'} />
                 ) : route.name === 'Contests' ? (
                   <Trophy fill={isFocused ? '#f8504d' : '#222'} />
-                ) :  route.name === 'Login' ? (
-                  <Account fill={isFocused ? '#f8504d' : '#222'} />
                 ) : null}
               </View>
             </TouchableOpacity>
@@ -103,12 +100,13 @@ function MyTabs(props) {
 
   return (
     <NavigationContainer>
-      <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
-        <Tab.Screen name="Home" component={HomeComponent} />
+      {user ? 
+       <Tab.Navigator tabBar={props => <MyTabBar {...props} />}>
+         {!user ? <Tab.Screen name="Login" component={Login} />
+        : <Tab.Screen name="Home" component={HomeComponent} /> }
         <Tab.Screen name="Post" component={Post} />
         <Tab.Screen name="Contests" component={ContestsComponent} />
-        <Tab.Screen name="Login" component={Login} />
-      </Tab.Navigator>
+      </Tab.Navigator> :  <Tab.Navigator tabBar={props =><View></View>}><Tab.Screen name="Login" component={Login} /></Tab.Navigator>}
     </NavigationContainer>
   );
 }

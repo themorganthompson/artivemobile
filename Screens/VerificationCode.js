@@ -1,0 +1,68 @@
+/* eslint-disable react-native/no-inline-styles */
+import React, { Component, useState, useEffect } from "react";
+import {
+  CodeField,
+  Cursor,
+  useBlurOnFulfill,
+  useClearByFocusCell,
+} from "react-native-confirmation-code-field";
+import {
+  Text,
+  SafeAreaView,
+  StyleSheet
+} from "react-native";
+
+const styles = StyleSheet.create({
+  root: {flex: 1, padding: 10, marginBottom: 20},
+  title: {textAlign: 'center', fontSize: 30},
+  codeFiledRoot: {marginTop: 20, width: "100%", marginLeft: -39},
+  cell: {
+    width: 48,
+    height: 48,
+    lineHeight: 44,
+    fontSize: 17,
+    overflow: "hidden",
+    borderWidth: 2,
+    backgroundColor: "#ebebeb",
+    borderColor: 'white',
+    textAlign: 'center',
+    margin:6.5,
+    borderRadius: 4
+  },
+  focusCell: {
+    borderColor: '#DD5A5A',
+  },
+});
+
+const VerificationCode = () => {
+  const [value, setValue] = useState('');
+  const ref = useBlurOnFulfill({value, cellCount: 6});
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
+    setValue,
+  });
+  
+  return (
+    <SafeAreaView style={styles.root}>
+      <CodeField
+        ref={ref}
+        {...props}
+        value={value}
+        onChangeText={setValue}
+        cellCount={6}
+        rootStyle={styles.codeFiledRoot}
+        keyboardType="number-pad"
+        renderCell={({index, symbol, isFocused}) => (
+          <Text
+            key={index}
+            style={[styles.cell, isFocused && styles.focusCell]}
+            onLayout={getCellOnLayoutHandler(index)}>
+            {symbol || (isFocused ? <Cursor /> : null)}
+          </Text>
+        )}
+      />
+    </SafeAreaView>
+  );
+};
+
+export default VerificationCode;

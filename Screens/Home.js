@@ -36,7 +36,7 @@ var styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "white",
     height: 650,
   },
 });

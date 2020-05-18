@@ -7,12 +7,12 @@ export default class header extends Component {
   render() {
     return (
       <>
-        <StatusBar backgroundColor="#212121" barStyle="light-content" />
+        <StatusBar backgroundColor="#DD5A5A" barStyle="light-content" />
         <View
           style={{
-            height: 110,
+            height: 150,
             color: 'white',
-            backgroundColor: '#f8504d',
+            backgroundColor: '#DD5A5A',
             justifyContent: 'center',
             overflow: 'hidden',
             paddingBottom: 0,
@@ -30,12 +30,12 @@ export default class header extends Component {
           />
           <Text
             style={{
-              fontSize: 28,
+              fontSize: 30,
               fontWeight: 'bold',
               paddingLeft: 20,
               color: 'white',
               marginBottom: 0,
-              marginTop: 58,
+              marginTop: 97,
             }}>
             {this.props.title}
           </Text>
