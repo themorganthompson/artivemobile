@@ -152,7 +152,7 @@ export default class HomeComponent extends Component {
   render() {
     return (
       <>
-        <Header title={"Home"} />
+        <Header title={"Home"} {...this.props}/>
         <Posts {...this.props} />
         {/* <RateSheetComponent
           togglePost={() => this.props.togglePost()}

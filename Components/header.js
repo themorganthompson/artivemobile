@@ -29,7 +29,7 @@ export default class header extends Component {
               marginTop: 64,
             }}
           >
-           Artive
+            {this.props.user ? this.props.user.phoneNumber : "Logged Out"}
           </Text>
           <Menu fill={"white"} style={{position: 'absolute', right: 22, zIndex: 1240, top: 76}} />
         </View>

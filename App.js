@@ -109,7 +109,7 @@ function MyTabs(props) {
   function HomeScreen() {
     return (
       <>
-        <HomeComponent togglePost={(post) => togglePost(post)} />
+        <HomeComponent togglePost={(post) => togglePost(post)} user={user}/>
       </>
     );
   }
