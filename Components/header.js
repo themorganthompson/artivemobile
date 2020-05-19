@@ -30,7 +30,7 @@ function Head(props) {
   const [ratePost, setRatePost] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [user, setUser] = useState(props.user);
-  console.log(props.user);
+
   const togglePost = (post) => {
     setRatePost(post);
     displayGreeting(!greetingStatus);
