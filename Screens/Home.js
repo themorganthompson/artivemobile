@@ -4,6 +4,8 @@ import Moment from "moment";
 import firebase from "../firebase/firebase";
 import RateSheetComponent from "./RateSheet";
 import FastImage from "react-native-fast-image";
+import Collapse from "../assets/static/collapse";
+import Modal from "react-native-modal";
 import {
   ActivityIndicator,
   Text,
@@ -17,7 +19,9 @@ import {
 const Posts = (props) => {
   let postz = [];
   let ordered = [];
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [critique, setCritique] = useState({});
   const [postLoading, setPostLoading] = useState(true);
 
   const getPosts = async (mounted) => {
@@ -101,6 +105,11 @@ const Posts = (props) => {
     [posts]
   );
 
+  async function toggleCritique(post) {
+    await setCritique(post);
+    setIsModalVisible(!isModalVisible);
+  }
+
   return (
     <>
       <SafeAreaView style={{ marginBottom: 140, zIndex: 1 }}>
@@ -118,7 +127,7 @@ const Posts = (props) => {
                 <TouchableHighlight
                   key={i}
                   underlayColor="#f0f0f0"
-                  // onPress={() => props.togglePost(post)}
+                  onPress={() => toggleCritique(post)}
                 >
                   <FastImage
                     key={post.key}
@@ -143,6 +152,86 @@ const Posts = (props) => {
             </View>
           )}
         </ScrollView>
+        <Modal
+          coverScreen={true}
+          isVisible={isModalVisible}
+          hasBackdrop={false}
+          deviceWidth={window.width}
+          style={{ margin: 0 }}
+        >
+          <View
+            style={{
+              height: 600,
+              backgroundColor: "white",
+              width: "100%",
+              marginTop: 880,
+            }}
+          >
+            <>
+              <View
+                style={{
+                  height: 40,
+                  paddingBottom: 2,
+                  borderBottomColor: "#d7d7d7",
+                  borderBottomWidth: 0.7,
+                }}
+              >
+                <Collapse
+                  fill="#f8504d"
+                  width={28}
+                  style={{ marginLeft: 8 }}
+                  onPress={() => toggleCritique({})}
+                />
+                <Text
+                  style={{
+                    position: "absolute",
+                    width: 100,
+                    color: "#f8504d",
+                    fontSize: 18,
+                    top: 8,
+                    marginLeft: "44%",
+                    marginRight: "auto",
+                  }}
+                  onPress={() => toggleCritique({})}
+                >
+                  Critique
+                </Text>
+              </View>
+              <Text
+                style={{
+                  marginLeft: 20,
+                  marginTop: 10,
+                  fontSize: 16,
+                  fontWeight: "600",
+                }}
+              >
+                {critique ? critique.caption : "A Caption Would Go Here"}
+              </Text>
+              <Text style={{ marginLeft: 20, fontSize: 11 }}>
+                {critique
+                  ? Moment(new Date(critique.submitted)).format("MMMM D, YYYY")
+                  : null}{" "}
+              </Text>
+              {critique ? (
+                <FastImage
+                  key={critique.key}
+                  style={{
+                    position: "absolute",
+                    width: 132,
+                    top: 58,
+                    right: 20,
+                    height: 88,
+                  }}
+                  resizeMode={FastImage.resizeMode.cover}
+                  source={{
+                    uri: critique.imageLink,
+                    priority: FastImage.priority.normal,
+                  }}
+                />
+              ) : null}
+            </>
+          </View>
+        </Modal>
       </SafeAreaView>
     </>
   );
@@ -152,13 +241,8 @@ export default class HomeComponent extends Component {
   render() {
     return (
       <>
-        <Header title={"Home"} {...this.props}/>
+        <Header title={"Home"} {...this.props} />
         <Posts {...this.props} />
-        {/* <RateSheetComponent
-          togglePost={() => this.props.togglePost()}
-          greetingStatus={this.props.greetingStatus}
-          ratePost={this.props.ratePost}
-        /> */}
       </>
     );
   }

@@ -45,7 +45,7 @@ class Login extends Component {
     this.setState({ user: user });
     if (this.state.user) {
       Creators.success(user);
-      this.props.navigation.navigate("Home");
+      this.props.navigation.navigate('Home');
       this.setState({ initializing: false });
     }
   }
@@ -59,7 +59,7 @@ class Login extends Component {
   componentDidUpdate() {
     if (this.state.user) {
       Creators.success(this.state.user);
-      this.props.navigation.navigate("Home");
+      this.props.navigation.navigate('Home');
     }
   }
 

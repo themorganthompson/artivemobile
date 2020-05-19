@@ -7,12 +7,13 @@ import { connect } from "react-redux";
 import Login from "./Screens/Login";
 import Post from "./Screens/Post";
 import HomeComponent from "./Screens/Home";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Button} from "react-native";
 import Trophy from "./assets/static/trophy";
 import Camera from "./assets/static/camera";
 import Home from "./assets/static/home";
 import ContestsComponent from "./Screens/Contests";
 import { Creators } from "./Components/redux";
+import Modal from 'react-native-modal';
 
 const Tab = createBottomTabNavigator();
 
@@ -116,7 +117,7 @@ function MyTabs(props) {
 
   return (
     <NavigationContainer>
-      {user ? (
+      {user.user !== null ? (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Post" component={Post} />
@@ -124,6 +125,7 @@ function MyTabs(props) {
         </Tab.Navigator>
       ) : (
         <Tab.Navigator tabBar={(props) => <View />}>
+          <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Login" component={Login} />
         </Tab.Navigator>
       )}
