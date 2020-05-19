@@ -1,5 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component, useState, useEffect } from "react";
+import { connect } from "react-redux";
 import {
   StatusBar,
   View,
@@ -10,7 +11,7 @@ import {
   Button,
   Link,
 } from "react-native";
-
+import { Creators } from "../Components/redux";
 import Menu from "../assets/static/menu";
 import Collapse from "../assets/static/collapse";
 /* eslint-disable react-native/no-inline-styles */
@@ -29,7 +30,7 @@ function Head(props) {
   const [ratePost, setRatePost] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [user, setUser] = useState(props.user);
-
+  console.log(props.user);
   const togglePost = (post) => {
     setRatePost(post);
     displayGreeting(!greetingStatus);
@@ -39,13 +40,21 @@ function Head(props) {
     auth()
       .signOut()
       .then(() => {
-        console.log("we out");
+        setUser(null);
+        props.user = null;
+        Creators.failure(null);
+        toggleModal();
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setUser(null);
+        props.user = null;
+        Creators.failure(null);
+        alert(error);
+      });
   };
 
-  const toggleModal = () => {
-    setIsModalVisible(!isModalVisible);
+  const toggleModal = (flag) => {
+    setIsModalVisible(flag);
   };
 
   return (
@@ -65,22 +74,23 @@ function Head(props) {
           style={{
             fontSize: 27,
             fontWeight: "400",
-            // paddingLeft: 20,
             color: "white",
             marginBottom: 0,
             textAlign: "center",
             marginTop: 64,
           }}
         >
-          Artive
+          {props.title ? props.title : "Artive" }
         </Text>
-
-        <Menu
-          onPress={() => toggleModal()}
-          fill={"white"}
-          style={{ position: "absolute", right: 22, zIndex: 1240, top: 76 }}
-        />
-      </View>
+        </View>
+        {user ? (
+          <TouchableOpacity
+            onPress={() => toggleModal(!isModalVisible)}
+            style={{ position: "absolute",height:50, width:100, top: 76, right: -58, zIndex: 1240}}
+          >
+            <Menu fill={"white"} onPress={() => toggleModal(!isModalVisible)} />
+          </TouchableOpacity>
+        ) : null}
       <Modal
         coverScreen={true}
         isVisible={isModalVisible}
@@ -109,12 +119,12 @@ function Head(props) {
               fill="#f8504d"
               width={28}
               style={{ marginLeft: 12.5 }}
-              onPress={toggleModal}
+              onPress={() => toggleModal(!isModalVisible)}
             />
           </View>
-          <Text style={{ textAlign: "center", marginTop: 20}}>
-              {props.user ? props.user.phoneNumber : "Logged Out"}
-            </Text>
+          <Text style={{ textAlign: "center", marginTop: 20 }}>
+            {user ? user.phoneNumber : ""}
+          </Text>
           <Button title="Logout" onPress={() => Logout()} />
         </View>
       </Modal>

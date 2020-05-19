@@ -112,7 +112,7 @@ const Posts = (props) => {
 
   return (
     <>
-      <SafeAreaView style={{ marginBottom: 140, zIndex: 1 }}>
+      <SafeAreaView style={{ marginBottom: 100, zIndex: 1 }}>
         <ScrollView style={{ zIndex: 1 }}>
           {postLoading ? (
             <ActivityIndicator
@@ -241,7 +241,7 @@ export default class HomeComponent extends Component {
   render() {
     return (
       <>
-        <Header title={"Home"} {...this.props} />
+        <Header title={"Home"} user={this.props.user} {...this.props} />
         <Posts {...this.props} />
       </>
     );

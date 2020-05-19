@@ -11,10 +11,12 @@ import {
   TextInput,
   Keyboard,
   TouchableOpacity,
+  Link,
   TouchableWithoutFeedback,
   StyleSheet,
 } from "react-native";
 import Arrow from "../assets/static/arrow";
+import Dot from "../assets/static/dot";
 import VerificationCodeComponent from "./VerificationCode.js";
 import Header from "../Components/header";
 import Circle from "../Components/circle";
@@ -28,8 +30,8 @@ class Login extends Component {
     phone: "",
     verificationcode: "",
     backgroundColor: "white",
-    phonecolor: "#ebebeb",
-    verificationcodecolor: "#ebebeb",
+    phonecolor: "#8e8e8e",
+    verificationcodecolor: "white",
     loading: false,
     verificationSent: false,
     confirmCode: null,
@@ -40,12 +42,11 @@ class Login extends Component {
     user: {},
     ref: {},
   };
-  
+
   onAuthStateChanged(user) {
     this.setState({ user: user });
     if (this.state.user) {
       Creators.success(user);
-      this.props.navigation.navigate('Home');
       this.setState({ initializing: false });
     }
   }
@@ -59,31 +60,28 @@ class Login extends Component {
   componentDidUpdate() {
     if (this.state.user) {
       Creators.success(this.state.user);
-      this.props.navigation.navigate('Home');
     }
   }
 
   onFocus = () => {
-    this.setState({ backgroundColor: "#61dbfb", phonecolor: "#f8504d" });
+    this.setState({ backgroundColor: "white", phonecolor: "#f8504d" });
   };
   onBlur = () => {
-    this.setState({ backgroundColor: "gray", phonecolor: "#f8504d" });
+    this.setState({ backgroundColor: "white", phonecolor: "#f8504d" });
   };
   onFocus1 = () => {
-    this.setState({ verificationcodecolor: "#f8504d" });
+    this.setState({ verificationcodecolor: "white" });
   };
   onBlur1 = () => {
-    this.setState({ verificationcodecolor: "#f8504d" });
+    this.setState({ verificationcodecolor: "white" });
   };
 
   validatePhone = (phone) => {
     this.setState({ phone: phone });
     if (validator.isMobilePhone(phone) && phone.length === 10) {
       this.setState({ error: false });
-      this.setState({ borderColor: "#DD5A5A" });
       this.setState({ apiError: null });
     } else {
-      this.setState({ backgroundColor: "#f8504d" });
       this.setState({ error: true });
     }
   };
@@ -99,6 +97,7 @@ class Login extends Component {
       await this.state.confirmCode.confirm(this.state.verificationcode);
     } catch (error) {
       this.setState({ error: true });
+      alert(error);
       this.setState({ verificationcodecolor: "#f8504d" });
     }
   }
@@ -110,65 +109,71 @@ class Login extends Component {
         <TouchableWithoutFeedback
           onPress={Keyboard.dismiss}
           accessible={false}
-          style={{ backgroundColor: "#FFFFFF" }}
+          style={{ backgroundColor: "white" }}
         >
           <SafeAreaView
             style={{ flex: 1 }}
-            style={{ backgroundColor: "#FFFFFF" }}
+            style={{ backgroundColor: "white", height: 1800 }}
           >
             <Circle />
-           {!this.state.confirmCode ? <>
-            <Text
-              style={{
-                fontSize: 18,
-                margin: 0,
-                padding: 0,
-                textAlign: "center",
-              }}
-            >
-              Enjoy a <Text style={{ fontWeight: "700" }}>no-bullshit</Text>{" "}
-              creative
-            </Text>
-            <Text
-              style={{
-                fontSize: 18,
-                marginBottom: 20,
-                padding: 0,
-                textAlign: "center",
-              }}
-            >
-              experience today!
-            </Text></> : (<>
-            <Text
-              style={{
-                fontSize: 18,
-                margin: 0,
-                padding: 0,
-                textAlign: "center",
-              }}
-            >
-              Enter the <Text style={{ fontWeight: "700" }}>6 digit code</Text>{" "}
-              sent
-            </Text>
-            <Text
-              style={{
-                fontSize: 18,
-                marginBottom: 0,
-                padding: 0,
-                textAlign: "center",
-              }}
-            >
-              to your mobile phone.
-            </Text></>)}
+            {!this.state.confirmCode ? (
+              <>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    margin: 0,
+                    padding: 0,
+                    textAlign: "center",
+                  }}
+                >
+                  Enjoy a <Text style={{ fontWeight: "700" }}>no-bullshit</Text>{" "}
+                  creative
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    marginBottom: 20,
+                    padding: 0,
+                    textAlign: "center",
+                  }}
+                >
+                  experience today!
+                </Text>
+              </>
+            ) : (
+              <>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    margin: 0,
+                    padding: 0,
+                    textAlign: "center",
+                  }}
+                >
+                  Enter the{" "}
+                  <Text style={{ fontWeight: "700" }}>6 digit code</Text> sent
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 18,
+                    marginBottom: 0,
+                    padding: 0,
+                    textAlign: "center",
+                  }}
+                >
+                  to your mobile phone.
+                </Text>
+              </>
+            )}
 
             {!this.state.confirmCode ? (
               <View
                 style={{
                   height: 50,
                   width: "85%",
-                  backgroundColor: "#ebebeb",
+                  backgroundColor: "white",
                   borderColor: this.state.phonecolor,
-                  borderWidth: 2,
+                  borderWidth: 1,
                   color: "black",
                   borderRadius: 3,
                   marginTop: 5,
@@ -237,7 +242,14 @@ class Login extends Component {
               <View />
             )}
             <TouchableOpacity
-              style={styles.button}
+              style={{
+                backgroundColor:
+                  this.state.error || this.state.phone === ""
+                    ? "#8e8e8e"
+                    : "#DD5A5A",
+                ...styles.button,
+              }}
+              disabled={this.state.error || this.state.phone === ""}
               onPress={() =>
                 this.state.confirmCode
                   ? this.confirmCode()
@@ -248,13 +260,24 @@ class Login extends Component {
               <Text style={styles.textstyle}>
                 {this.state.confirmCode ? (
                   <Arrow fill="white" style={{ marginTop: 25 }} />
-                ) : this.state.error ? (
-                  "INVALID PHONE"
+                ) : this.state.error || this.state.phone === "" ? (
+                  <Arrow fill="black" style={{ marginTop: 25 }} />
                 ) : (
                   <Arrow fill="white" style={{ marginTop: 25 }} />
                 )}
               </Text>
             </TouchableOpacity>
+            <Text style={styles.condition}>
+              By signing up, you agree to our{" "}
+              <Text style={styles.link}>Terms & Conditions</Text>.
+            </Text>
+            <View style={styles.dots}>
+              <Dot fill={!this.state.confirmCode ? "#DD5A5A" : "#eba4a5"} />
+              <Dot
+                style={styles.dotRight}
+                fill={this.state.confirmCode ? "#DD5A5A" : "#eba4a5"}
+              />
+            </View>
           </SafeAreaView>
         </TouchableWithoutFeedback>
       </>
@@ -273,6 +296,28 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps)(Login);
 
 const styles = StyleSheet.create({
+  dots: {
+    display: "flex",
+    marginLeft: "auto",
+    padding: 5,
+    marginRight: "auto",
+    paddingLeft:6,
+    width: 40,
+  },
+  dotRight: {
+    marginLeft: 14,
+    marginTop: -10,
+  },
+  link: {
+    color: "#DD5A5A",
+    fontWeight: "500",
+  },
+  condition: {
+    padding: 10,
+    fontSize: 12,
+    marginTop: 15,
+    textAlign: "center",
+  },
   emailcontainer: {
     marginTop: 25,
     height: 90,
@@ -326,8 +371,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     height: 50,
     width: "85%",
-    backgroundColor: "#DD5A5A",
-    borderRadius: 3,
+    borderRadius: 6,
     display: "flex",
     marginTop: 10,
     alignItems: "center",

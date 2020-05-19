@@ -17,16 +17,17 @@ const styles = StyleSheet.create({
   title: {textAlign: 'center', fontSize: 30},
   codeFiledRoot: {marginTop: 0, width: "100%", marginLeft: -39},
   cell: {
-    width: 48,
+    width: 42,
     height: 48,
-    lineHeight: 44,
+    lineHeight: 42,
     fontSize: 17,
     overflow: "hidden",
     borderWidth: 2,
     backgroundColor: "#ebebeb",
     borderColor: 'white',
     textAlign: 'center',
-    margin:6.5,
+    margin:6,
+    marginLeft: 8.3,
     borderRadius: 4
   },
   focusCell: {

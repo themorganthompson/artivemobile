@@ -7,13 +7,12 @@ import { connect } from "react-redux";
 import Login from "./Screens/Login";
 import Post from "./Screens/Post";
 import HomeComponent from "./Screens/Home";
-import { View, Text, TouchableOpacity, Button} from "react-native";
+import { View, Text, TouchableOpacity, Button } from "react-native";
 import Trophy from "./assets/static/trophy";
 import Camera from "./assets/static/camera";
 import Home from "./assets/static/home";
 import ContestsComponent from "./Screens/Contests";
 import { Creators } from "./Components/redux";
-import Modal from 'react-native-modal';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +21,7 @@ function MyTabs(props) {
   const [greetingStatus, displayGreeting] = useState(false);
   const [ratePost, setRatePost] = useState({});
   const [user, setUser] = useState(props.user);
+  console.log(user);
 
   const togglePost = (post) => {
     setRatePost(post);
@@ -33,6 +33,8 @@ function MyTabs(props) {
     if (requestUser) {
       dispatch(Creators.success(requestUser));
       setUser(requestUser);
+    } else {
+      // setUser({});
     }
   };
 
@@ -91,7 +93,7 @@ function MyTabs(props) {
                 paddingBottom: 50,
               }}
             >
-              <View  style={{display: !greetingStatus ? "flex" : "none"}}>
+              <View style={{ display: !greetingStatus ? "flex" : "none" }}>
                 {route.name === "Home" || route.name === "Login" ? (
                   <Home fill={isFocused ? "#f8504d" : "#222"} />
                 ) : route.name === "Post" ? (
@@ -110,14 +112,14 @@ function MyTabs(props) {
   function HomeScreen() {
     return (
       <>
-        <HomeComponent togglePost={(post) => togglePost(post)} user={user}/>
+        <HomeComponent togglePost={(post) => togglePost(post)} user={user} {...props}/>
       </>
     );
   }
 
   return (
     <NavigationContainer>
-      {user.user !== null ? (
+      {user && user.user !== null ? (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Post" component={Post} />
@@ -125,8 +127,11 @@ function MyTabs(props) {
         </Tab.Navigator>
       ) : (
         <Tab.Navigator tabBar={(props) => <View />}>
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Login" component={Login} />
+          {user && user.user === null ? (
+            <Tab.Screen name="Login" component={Login} />
+          ) : (
+            <Tab.Screen name="Home" component={HomeScreen} />
+          )}
         </Tab.Navigator>
       )}
     </NavigationContainer>
