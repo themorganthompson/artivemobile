@@ -12,6 +12,9 @@ import Trophy from "./assets/static/trophy";
 import Camera from "./assets/static/camera";
 import Home from "./assets/static/home";
 import ContestsComponent from "./Screens/Contests";
+import GestureRecognizer, {
+  swipeDirections,
+} from "react-native-swipe-gestures";
 import { Creators } from "./Components/redux";
 
 const Tab = createBottomTabNavigator();
@@ -20,8 +23,11 @@ function MyTabs(props) {
   const { dispatch } = props;
   const [greetingStatus, displayGreeting] = useState(false);
   const [ratePost, setRatePost] = useState({});
+  const [currentRoute, setCurrentRoute] = useState();
+  const [nextRoute, setNextRoute] = useState();
+  const [navigation, setNavigation] = useState();
+  const [gestureName, setGestureName] = useState("none");
   const [user, setUser] = useState(props.user);
-  console.log(user);
 
   const togglePost = (post) => {
     setRatePost(post);
@@ -38,6 +44,25 @@ function MyTabs(props) {
     }
   };
 
+  const onSwipe = (gestureName) => {
+    if (gestureName === 'SWIPE_LEFT') {
+      if (currentRoute == "Home") {
+        navigation.navigate("Post");
+      }
+      if (currentRoute == "Post") {
+        navigation.navigate("Contests");
+      }
+    }
+    if (gestureName === 'SWIPE_RIGHT') {
+      if (currentRoute == "Contests") {
+        navigation.navigate("Post");
+      }
+      if (currentRoute == "Post") {
+        navigation.navigate("Home");
+      }
+    }
+  };
+
   useEffect(() => {
     // eslint-disable-next-line no-shadow
     auth().onAuthStateChanged((thisuser) => {
@@ -49,8 +74,10 @@ function MyTabs(props) {
     return (
       <View style={{ flexDirection: "row" }}>
         {state.routes.map((route, index) => {
+          setNavigation(navigation);
           const { options } = descriptors[route.key];
           const isFocused = state.index === index;
+          if (isFocused) setCurrentRoute(route.name);
 
           const onPress = () => {
             const event = navigation.emit({
@@ -109,10 +136,59 @@ function MyTabs(props) {
     );
   }
 
+  const config = {
+    velocityThreshold: 0.5,
+    directionalOffsetThreshold: 30,
+  };
+
   function HomeScreen() {
     return (
       <>
-        <HomeComponent togglePost={(post) => togglePost(post)} user={user} {...props}/>
+        <GestureRecognizer
+          onSwipe={(direction) => onSwipe(direction)}
+          config={config}
+          style={{
+            flex: 1,
+          }}
+        >
+          <HomeComponent
+            togglePost={(post) => togglePost(post)}
+            user={user}
+            {...props}
+          />
+        </GestureRecognizer>
+      </>
+    );
+  }
+
+  function PostScreen() {
+    return (
+      <>
+        <GestureRecognizer
+          onSwipe={(direction) => onSwipe(direction)}
+          config={config}
+          style={{
+            flex: 1,
+          }}
+        >
+          <Post {...props} />
+        </GestureRecognizer>
+      </>
+    );
+  }
+
+  function ContestsScreen() {
+    return (
+      <>
+        <GestureRecognizer
+          onSwipe={(direction) => onSwipe(direction)}
+          config={config}
+          style={{
+            flex: 1,
+          }}
+        >
+          <ContestsComponent {...props} />
+        </GestureRecognizer>
       </>
     );
   }
@@ -122,8 +198,8 @@ function MyTabs(props) {
       {user && user.user !== null ? (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
           <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Post" component={Post} />
-          <Tab.Screen name="Contests" component={ContestsComponent} />
+          <Tab.Screen name="Post" component={PostScreen} />
+          <Tab.Screen name="Contests" component={ContestsScreen} />
         </Tab.Navigator>
       ) : (
         <Tab.Navigator tabBar={(props) => <View />}>
