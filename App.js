@@ -28,7 +28,7 @@ function MyTabs(props) {
   const [nextRoute, setNextRoute] = useState();
   const [navigation, setNavigation] = useState();
   const [gestureName, setGestureName] = useState("none");
-  const [user, setUser] = useState(props.user);
+  const [user, setUser] = useState({});
 
   const togglePost = (post) => {
     setRatePost(post);
@@ -38,10 +38,8 @@ function MyTabs(props) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onAuthStateChanged = (requestUser) => {
     if (requestUser) {
-      dispatch(Creators.success(requestUser));
       setUser(requestUser);
     } else {
-      // setUser({});
     }
   };
 
@@ -70,7 +68,7 @@ function MyTabs(props) {
     auth().onAuthStateChanged((thisuser) => {
       onAuthStateChanged(thisuser);
     });
-  }, [onAuthStateChanged, props.user, user]);
+  }, [onAuthStateChanged, user]);
 
   function MyTabBar({ state, descriptors, navigation }) {
     return (
@@ -139,8 +137,8 @@ function MyTabs(props) {
   }
 
   const config = {
-    velocityThreshold: 0.5,
-    directionalOffsetThreshold: 30,
+    velocityThreshold: 0.2,
+    directionalOffsetThreshold: 10,
   };
 
   function HomeScreen() {
@@ -216,12 +214,5 @@ function MyTabs(props) {
   );
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state,
-    fetching: state.fetching,
-    error: state.error,
-  };
-}
 
-export default connect(mapStateToProps)(MyTabs);
+export default MyTabs;

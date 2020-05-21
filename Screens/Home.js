@@ -122,6 +122,31 @@ const Posts = (props) => {
     }
   }
 
+  async function submitCritique() {
+    var ref = firebase.database().ref("post-critiques/");
+    if (props.user) {
+      await ref.push({
+        uid: props.user.uid,
+        post: critique.key,
+        Perspective: chipsTouched.filter(c => c === 'Perspective').length > 0 ? 1 : 0,
+        Composition: chipsTouched.filter(c => c === 'Composition').length > 0 ? 1 : 0,
+        Concept: chipsTouched.filter(c => c === 'Concept').length > 0 ? 1 : 0,
+        Crop: chipsTouched.filter(c => c === 'Crop').length > 0 ? 1 : 0,
+        Emotion: chipsTouched.filter(c => c === 'Emotion').length > 0 ? 1 : 0,
+        Focus: chipsTouched.filter(c => c === 'Focus').length > 0 ? 1 : 0,
+        Lighting: chipsTouched.filter(c => c === 'Lighting').length > 0 ? 1 : 0,
+        Rating: rating,
+        submitted: Moment().format('YYYY-MM-DD hh:mm:ss a')
+      }).then(() => {
+        setChipsTouched([]);
+        setCritique({});
+        setRating(0);
+        setIsModalVisible(false);
+      });
+
+    }
+  };
+
   async function setLocalPosts(list) {
     setPosts(list);
     setPostLoading(false);
@@ -341,6 +366,7 @@ const Posts = (props) => {
                   ...styles.button,
                 }}
                 id="submit-account"
+                onPress={() => submitCritique()}
               >
                 <Text style={styles.textstyle}>
                   <Check fill="black" style={{ marginTop: 25 }} width={25} />
@@ -376,7 +402,7 @@ export default class HomeComponent extends Component {
     return (
       <>
         <Header title={"Home"} user={this.props.user} {...this.props} />
-        <Posts {...this.props} />
+        <Posts user={this.props.user} {...this.props} />
       </>
     );
   }
