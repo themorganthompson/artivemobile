@@ -3,12 +3,17 @@ import Header from "../Components/header";
 import Moment from "moment";
 import firebase from "../firebase/firebase";
 import RateSheetComponent from "./RateSheet";
+import { AirbnbRating } from 'react-native-ratings';
 import FastImage from "react-native-fast-image";
 import Collapse from "../assets/static/collapse";
+import { Chip } from 'react-native-paper';
 import Camera from "../assets/static/camera";
+import HeartEmpty from "../assets/static/heart-empty";
+import HeartFill from "../assets/static/heart-fill";
 import Aperture from "../assets/static/apertureSVG";
 import Label from "../assets/static/label";
 import Lens from "../assets/static/lens";
+import Check from "../assets/static/check";
 import Modal from "react-native-modal";
 import {
   ActivityIndicator,
@@ -18,15 +23,39 @@ import {
   View,
   TouchableHighlight,
   AsyncStorage,
+  StyleSheet,
+  TouchableOpacity,
 } from "react-native";
+import { AlignCenter } from "react-feather";
 
 const Posts = (props) => {
   let postz = [];
+  const [rating, setRating] = useState(0);
+  const Star = require('../assets/static/star.png')
   let ordered = [];
+  let chips = [
+    "Lighting",
+    "Color",
+    "Composition",
+    "Emotion",
+    "Focus",
+    "Concept",
+    "Crop",
+    "Perspective"];
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [posts, setPosts] = useState([]);
   const [critique, setCritique] = useState({});
   const [postLoading, setPostLoading] = useState(true);
+  const [chipsTouched, setChipsTouched] = useState([]);
+
+  const selectChip = (chip) => {
+    chipsTouched.push(chip);
+    setChipsTouched(chipsTouched);
+  }
+
+  const deSelectChip = (chip) => {
+    setChipsTouched(chipsTouched.filter(e => e !== chip));
+  }
 
   const getPosts = async (mounted) => {
     setPostLoading(true);
@@ -114,6 +143,27 @@ const Posts = (props) => {
     setIsModalVisible(!isModalVisible);
   }
 
+  const ratingCompleted = (r) => {
+    setRating(r);
+  }
+
+  const styles = StyleSheet.create({
+    button: {
+      marginLeft: "auto",
+      marginRight: "auto",
+      paddingBottom: 5,
+      paddingTop: 10,
+      height: 45,
+      width: "85%",
+      borderRadius: 6,
+      display: "flex",
+      marginTop: 1,
+      marginBottom: 20,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });
+
   return (
     <>
       <SafeAreaView style={{ marginBottom: 100, zIndex: 1 }}>
@@ -164,10 +214,10 @@ const Posts = (props) => {
         >
           <View
             style={{
-              height: 600,
+              height: 900,
               backgroundColor: "white",
               width: "100%",
-              marginTop: 880,
+              marginTop: 780,
             }}
           >
             <>
@@ -233,19 +283,69 @@ const Posts = (props) => {
                     {critique.lens}
                   </Text>
                 </View>
-                <View style={{ marginLeft: 120, marginTop: -43, fontSize: 11, width: 100, height: 20, paddingTop: 2 }}>
+                <View style={{ marginLeft: 100, marginTop: -43, fontSize: 11, width: 100, height: 20, paddingTop: 2 }}>
                   <Text style={{ display: "flex", width: 100, fontSize: 11, paddingBottom: 7 }}>
                     <Aperture fill={"rgb(142,142,142)"} width={15} />{" "}
                     {critique.aperture}
                   </Text>
                 </View>
-                <View style={{ marginLeft: 120, marginTop: 3, fontSize: 11, width: 100, height: 20, paddingTop: 2 }}>
+                <View style={{ marginLeft: 100, marginTop: 3, fontSize: 11, width: 100, height: 20, paddingTop: 2 }}>
                   <Text style={{ display: "flex", width: 100, fontSize: 11, paddingBottom: 7 }}>
                     <Label fill={"rgb(142,142,142)"} width={15} style={{ marginBottom: -7 }} />{" "}
                     {critique.category}
                   </Text>
                 </View>
               </View>
+              <View style={{ marginTop: 10, marginBottom: 0 }}>
+                <AirbnbRating
+                  useNativeDriver={true}
+                  count={5}
+                  showRating={false}
+                  defaultRating={0}
+                  size={25}
+                  onFinishRating={(count) => ratingCompleted(count)}
+                />
+              </View>
+              <View style={{ display: 'flex', height: 220, marginBottom: 0, marginTop: 0 }}>
+                <View style={{ margin: 20, marginLeft: 60, flexWrap: 'wrap', alignItems: 'center', display: 'flex' }} >
+                  {chips.map(chipy => {
+                    return (
+                      <Chip mode="outlined"
+                        key={chipy}
+                        textStyle={{ color: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'black', fontWeight: chipsTouched.filter(c => c === chipy).length > 0 ? '500' : 'normal' }}
+                        style={{
+                          margin: 5, height: 35, backgroundColor: 'white',
+                          borderColor: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'rgb(186, 186, 186)', borderWidth: 1.2
+                        }} onPress={() => {
+                          chipsTouched.filter(c => c === chipy).length > 0 ? deSelectChip(chipy) : selectChip(chipy)
+                        }}>{chipy}
+                        {chipsTouched.filter(c => c === chipy).length === 0 ?
+                          <HeartEmpty
+                            fill={'rgb(186, 186, 186)'}
+                            width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} /> :
+                          <HeartFill
+                            fill={'#FBC02D'}
+                            width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} />}
+                      </Chip>
+                    )
+                  })}
+                </View>
+              </View>
+              <TouchableOpacity
+                disabled={chipsTouched.length == 0 || rating === 0}
+                style={{
+                  backgroundColor:
+                    chipsTouched.length == 0 || rating === 0
+                      ? "#8e8e8e"
+                      : "#FBC02D",
+                  ...styles.button,
+                }}
+                id="submit-account"
+              >
+                <Text style={styles.textstyle}>
+                  <Check fill="black" style={{ marginTop: 25 }} width={25} />
+                </Text>
+              </TouchableOpacity>
               {critique ? (
                 <FastImage
                   key={critique.key}
