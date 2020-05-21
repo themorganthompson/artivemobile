@@ -31,7 +31,7 @@ import { AlignCenter } from "react-feather";
 const Posts = (props) => {
   let postz = [];
   const [rating, setRating] = useState(0);
-  const Star = require('../assets/static/star.png')
+  const [alreadyCritiqued, setAlreadyCritiqued] = useState(false);
   let ordered = [];
   let chips = [
     "Lighting",
@@ -87,6 +87,7 @@ const Posts = (props) => {
               fiveStars: child[1].fiveStars,
               editorspick: child[1].editorspick,
               total: child[1].total,
+              author: child[1].author,
               average:
                 (5 * child[1].fiveStars +
                   4 * child[1].fourStars +
@@ -123,9 +124,9 @@ const Posts = (props) => {
   }
 
   async function submitCritique() {
-    var ref = firebase.database().ref("post-critiques/");
     if (props.user) {
-      await ref.push({
+      var ref = firebase.database().ref("post-critiques/");
+      ref.push({
         uid: props.user.uid,
         post: critique.key,
         Perspective: chipsTouched.filter(c => c === 'Perspective').length > 0 ? 1 : 0,
@@ -143,9 +144,8 @@ const Posts = (props) => {
         setRating(0);
         setIsModalVisible(false);
       });
-
     }
-  };
+  }
 
   async function setLocalPosts(list) {
     setPosts(list);
@@ -164,8 +164,31 @@ const Posts = (props) => {
   );
 
   async function toggleCritique(post) {
+    var ref = firebase.database().ref("post-critiques/");
     await setCritique(post);
-    setIsModalVisible(!isModalVisible);
+    if (props.user && !isModalVisible) {
+      await ref.orderByChild("post").equalTo(post.key).once("value", (snapshot) => {
+        if (snapshot.val()) {
+          let critiques = [];
+          critiques.push(snapshot.val());
+          var critRes = Object.keys(critiques[0]).map(function (key) {
+            return [Number(key), critiques[0][key]];
+          });
+          if (critRes.filter(x => x[1].uid === props.user.uid).length > 0) {
+            setAlreadyCritiqued(true);
+            return;
+          };
+        } else {
+          return;
+        }
+      });
+     
+      setIsModalVisible(!isModalVisible);
+      return;
+    } else {
+      setAlreadyCritiqued(false);
+      setIsModalVisible(!isModalVisible);
+    }
   }
 
   const ratingCompleted = (r) => {
@@ -239,7 +262,7 @@ const Posts = (props) => {
         >
           <View
             style={{
-              height: 900,
+              height: !alreadyCritiqued ? 900 : 400,
               backgroundColor: "white",
               width: "100%",
               marginTop: 780,
@@ -278,7 +301,7 @@ const Posts = (props) => {
               <View style={{
                 height: 120,
                 borderBottomColor: "#d7d7d7",
-                borderBottomWidth: 0.7,
+                borderBottomWidth: !alreadyCritiqued ? 0.7 : 0,
               }}>
                 <Text
                   style={{
@@ -321,42 +344,44 @@ const Posts = (props) => {
                   </Text>
                 </View>
               </View>
-              <View style={{ marginTop: 10, marginBottom: 0 }}>
-                <AirbnbRating
-                  useNativeDriver={true}
-                  count={5}
-                  showRating={false}
-                  defaultRating={0}
-                  size={25}
-                  onFinishRating={(count) => ratingCompleted(count)}
-                />
-              </View>
+              {!alreadyCritiqued ?
+                <View style={{ marginTop: 10, marginBottom: 0 }}>
+                  <AirbnbRating
+                    useNativeDriver={true}
+                    count={5}
+                    showRating={false}
+                    defaultRating={0}
+                    size={25}
+                    onFinishRating={(count) => ratingCompleted(count)}
+                  />
+                </View> : null}
               <View style={{ display: 'flex', height: 220, marginBottom: 0, marginTop: 0 }}>
-                <View style={{ margin: 20, marginLeft: 60, flexWrap: 'wrap', alignItems: 'center', display: 'flex' }} >
-                  {chips.map(chipy => {
-                    return (
-                      <Chip mode="outlined"
-                        key={chipy}
-                        textStyle={{ color: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'black', fontWeight: chipsTouched.filter(c => c === chipy).length > 0 ? '500' : 'normal' }}
-                        style={{
-                          margin: 5, height: 35, backgroundColor: 'white',
-                          borderColor: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'rgb(186, 186, 186)', borderWidth: 1.2
-                        }} onPress={() => {
-                          chipsTouched.filter(c => c === chipy).length > 0 ? deSelectChip(chipy) : selectChip(chipy)
-                        }}>{chipy}
-                        {chipsTouched.filter(c => c === chipy).length === 0 ?
-                          <HeartEmpty
-                            fill={'rgb(186, 186, 186)'}
-                            width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} /> :
-                          <HeartFill
-                            fill={'#FBC02D'}
-                            width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} />}
-                      </Chip>
-                    )
-                  })}
-                </View>
+                {!alreadyCritiqued ?
+                  <View style={{ margin: 20, marginLeft: 60, flexWrap: 'wrap', alignItems: 'center', display: 'flex' }} >
+                    {chips.map(chipy => {
+                      return (
+                        <Chip mode="outlined"
+                          key={chipy}
+                          textStyle={{ color: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'black', fontWeight: chipsTouched.filter(c => c === chipy).length > 0 ? '500' : 'normal' }}
+                          style={{
+                            margin: 5, height: 35, backgroundColor: 'white',
+                            borderColor: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'rgb(186, 186, 186)', borderWidth: 1.2
+                          }} onPress={() => {
+                            chipsTouched.filter(c => c === chipy).length > 0 ? deSelectChip(chipy) : selectChip(chipy)
+                          }}>{chipy}
+                          {chipsTouched.filter(c => c === chipy).length === 0 ?
+                            <HeartEmpty
+                              fill={'rgb(186, 186, 186)'}
+                              width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} /> :
+                            <HeartFill
+                              fill={'#FBC02D'}
+                              width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} />}
+                        </Chip>
+                      )
+                    })}
+                  </View> : null}
               </View>
-              <TouchableOpacity
+              {!alreadyCritiqued ? <TouchableOpacity
                 disabled={chipsTouched.length == 0 || rating === 0}
                 style={{
                   backgroundColor:
@@ -371,7 +396,7 @@ const Posts = (props) => {
                 <Text style={styles.textstyle}>
                   <Check fill="black" style={{ marginTop: 25 }} width={25} />
                 </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> : null}
               {critique ? (
                 <FastImage
                   key={critique.key}
