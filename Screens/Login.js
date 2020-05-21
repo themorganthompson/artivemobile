@@ -30,7 +30,7 @@ class Login extends Component {
     phone: "",
     verificationcode: "",
     backgroundColor: "white",
-    phonecolor: "#8e8e8e",
+    phonecolor: "#CCCCCC",
     verificationcodecolor: "white",
     loading: false,
     verificationSent: false,
@@ -64,10 +64,10 @@ class Login extends Component {
   }
 
   onFocus = () => {
-    this.setState({ backgroundColor: "white", phonecolor: "#f8504d" });
+    this.setState({ backgroundColor: "white", phonecolor: "#FBC02D" });
   };
   onBlur = () => {
-    this.setState({ backgroundColor: "white", phonecolor: "#f8504d" });
+    this.setState({ backgroundColor: "white", phonecolor: "#FBC02D" });
   };
   onFocus1 = () => {
     this.setState({ verificationcodecolor: "white" });
@@ -98,7 +98,7 @@ class Login extends Component {
     } catch (error) {
       this.setState({ error: true });
       alert(error);
-      this.setState({ verificationcodecolor: "#f8504d" });
+      this.setState({ verificationcodecolor: "#FBC02D" });
     }
   }
 
@@ -126,8 +126,7 @@ class Login extends Component {
                     textAlign: "center",
                   }}
                 >
-                  Enjoy a <Text style={{ fontWeight: "700" }}>no-bullshit</Text>{" "}
-                  creative
+                  Relish in a <Text style={{ fontWeight: "700" }}>no-bullshit</Text>{" "}
                 </Text>
                 <Text
                   style={{
@@ -137,7 +136,7 @@ class Login extends Component {
                     textAlign: "center",
                   }}
                 >
-                  experience today!
+                  creative space.
                 </Text>
               </>
             ) : (
@@ -193,7 +192,7 @@ class Login extends Component {
                     fontWeight: "700",
                     position: "relative",
                     marginRight: 15,
-                    color: "#DD5A5A",
+                    color: "#FBC02D",
                   }}
                 >
                   + 1{" "}
@@ -246,7 +245,7 @@ class Login extends Component {
                 backgroundColor:
                   this.state.error || this.state.phone === ""
                     ? "#8e8e8e"
-                    : "#DD5A5A",
+                    : "#FBC02D",
                 ...styles.button,
               }}
               disabled={this.state.error || this.state.phone === ""}
@@ -272,10 +271,10 @@ class Login extends Component {
               <Text style={styles.link}>Terms & Conditions</Text>.
             </Text>
             <View style={styles.dots}>
-              <Dot fill={!this.state.confirmCode ? "#DD5A5A" : "#eba4a5"} />
+              <Dot fill={!this.state.confirmCode ? "#FBC02D" : "#FDDF96"} />
               <Dot
                 style={styles.dotRight}
-                fill={this.state.confirmCode ? "#DD5A5A" : "#eba4a5"}
+                fill={this.state.confirmCode ? "#FBC02D" : "#FDDF96"}
               />
             </View>
           </SafeAreaView>
@@ -309,7 +308,7 @@ const styles = StyleSheet.create({
     marginTop: -10,
   },
   link: {
-    color: "#DD5A5A",
+    color: "#FBC02D",
     fontWeight: "500",
   },
   condition: {

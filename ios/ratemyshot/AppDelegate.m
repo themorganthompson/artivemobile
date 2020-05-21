@@ -3,6 +3,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+#import "RNSplashScreen.h"
 #import <UserNotifications/UserNotifications.h>
 //#import <RNCPushNotificationIOS.h>
 
@@ -55,6 +56,7 @@ static void InitializeFlipper(UIApplication *application) {
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
   center.delegate = self;
 
+  [RNSplashScreen show];
   return YES;
 }
 

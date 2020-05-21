@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   title: {textAlign: 'center', fontSize: 30},
   codeFiledRoot: {marginTop: 0, width: "100%", marginLeft: -39},
   cell: {
-    width: 42,
+    width: 46.5,
     height: 48,
     lineHeight: 42,
     fontSize: 17,
@@ -26,12 +26,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ebebeb",
     borderColor: 'white',
     textAlign: 'center',
-    margin:6,
-    marginLeft: 8.3,
+    margin: 7.5,
     borderRadius: 4
   },
   focusCell: {
-    borderColor: '#DD5A5A',
+    borderColor: '#FBC02D',
   },
 });
 

@@ -13,6 +13,7 @@ import {
 } from "react-native";
 import { Creators } from "../Components/redux";
 import Menu from "../assets/static/menu";
+import Logo from "../assets/static/logo";
 import Collapse from "../assets/static/collapse";
 /* eslint-disable react-native/no-inline-styles */
 import auth from "@react-native-firebase/auth";
@@ -59,29 +60,29 @@ function Head(props) {
 
   return (
     <>
-      <StatusBar backgroundColor="#DD5A5A" barStyle="light-content" />
+      <StatusBar backgroundColor="#FBC02D" barStyle="light-content" />
       <View
         style={{
           height: 110,
           color: "white",
-          backgroundColor: "#DD5A5A",
+          backgroundColor: "#FBC02D",
           justifyContent: "center",
           overflow: "hidden",
           paddingBottom: 0,
         }}
       >
-        <Text
+        <View
           style={{
-            fontSize: 27,
-            fontWeight: "400",
             color: "white",
             marginBottom: 0,
-            textAlign: "center",
-            marginTop: 64,
+            marginTop: 62,
+            width: 85,
+            marginLeft: "auto",
+            marginRight: "auto",
           }}
         >
-          {props.title ? props.title : "Artive" }
-        </Text>
+          <Logo fill="white" {...props} />
+        </View>
         </View>
         {user ? (
           <TouchableOpacity
@@ -116,7 +117,7 @@ function Head(props) {
             }}
           >
             <Collapse
-              fill="#f8504d"
+              fill="#FBC02D"
               width={28}
               style={{ marginLeft: 12.5 }}
               onPress={() => toggleModal(!isModalVisible)}

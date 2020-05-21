@@ -5,6 +5,10 @@ import firebase from "../firebase/firebase";
 import RateSheetComponent from "./RateSheet";
 import FastImage from "react-native-fast-image";
 import Collapse from "../assets/static/collapse";
+import Camera from "../assets/static/camera";
+import Aperture from "../assets/static/apertureSVG";
+import Label from "../assets/static/label";
+import Lens from "../assets/static/lens";
 import Modal from "react-native-modal";
 import {
   ActivityIndicator,
@@ -33,10 +37,10 @@ const Posts = (props) => {
         if (snapshot.val()) {
           postz.push(snapshot.val());
           let keys = Object.keys(postz[0]);
-          var result = Object.keys(postz[0]).map(function(key) {
+          var result = Object.keys(postz[0]).map(function (key) {
             return [Number(key), postz[0][key]];
           });
-          result.forEach(function(child, i) {
+          result.forEach(function (child, i) {
             ordered.push({
               index: i,
               key: keys[i],
@@ -119,7 +123,7 @@ const Posts = (props) => {
               style={{ marginTop: "70%", height: 35 }}
               size="large"
               underlayColor="#f0f0f0"
-              color="#e93a50"
+              color="#FBC02D"
             />
           ) : posts.length > 0 ? (
             posts.map((post, i) => {
@@ -147,10 +151,9 @@ const Posts = (props) => {
               );
             })
           ) : (
-            <View underlayColor="#f0f0f0">
-              <Text>There are no posts to display</Text>
-            </View>
-          )}
+                <View underlayColor="#f0f0f0">
+                </View>
+              )}
         </ScrollView>
         <Modal
           coverScreen={true}
@@ -177,7 +180,7 @@ const Posts = (props) => {
                 }}
               >
                 <Collapse
-                  fill="#f8504d"
+                  fill="#FBC02D"
                   width={28}
                   style={{ marginLeft: 8 }}
                   onPress={() => toggleCritique({})}
@@ -186,7 +189,7 @@ const Posts = (props) => {
                   style={{
                     position: "absolute",
                     width: 100,
-                    color: "#f8504d",
+                    color: "#FBC02D",
                     fontSize: 18,
                     top: 8,
                     marginLeft: "44%",
@@ -197,28 +200,59 @@ const Posts = (props) => {
                   Critique
                 </Text>
               </View>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginTop: 10,
-                  fontSize: 16,
-                  fontWeight: "600",
-                }}
-              >
-                {critique ? critique.caption : "A Caption Would Go Here"}
-              </Text>
-              <Text style={{ marginLeft: 20, fontSize: 11 }}>
-                {critique
-                  ? Moment(new Date(critique.submitted)).format("MMMM D, YYYY")
-                  : null}{" "}
-              </Text>
+              <View style={{
+                height: 120,
+                borderBottomColor: "#d7d7d7",
+                borderBottomWidth: 0.7,
+              }}>
+                <Text
+                  style={{
+                    marginLeft: 20,
+                    marginTop: 10,
+                    fontSize: 16,
+                    fontWeight: "600",
+                  }}
+                >
+                  {critique ? critique.caption : "A Caption Would Go Here"}
+                </Text>
+                <Text style={{ marginLeft: 20, fontSize: 11 }}>
+                  {critique
+                    ? Moment(new Date(critique.submitted)).format("MMMM D, YYYY")
+                    : null}{" "}
+                </Text>
+
+                <View style={{ marginTop: 8, marginLeft: 20, fontSize: 11, width: 100, height: 20, paddingTop: 2, overflow: "visible" }}>
+                  <Text style={{ display: "flex", width: 100, fontSize: 11, paddingBottom: 5, overflow: "visible" }}>
+                    <Camera fill={"rgb(142,142,142)"} width={15} />{" "}
+                    {critique.camera}
+                  </Text>
+                </View>
+                <View style={{ marginLeft: 20, marginTop: 5, fontSize: 11, width: 100, height: 20, paddingTop: 2 }}>
+                  <Text style={{ display: "flex", width: 100, fontSize: 11, paddingBottom: 7 }}>
+                    <Lens fill={"rgb(142,142,142)"} width={15} />{" "}
+                    {critique.lens}
+                  </Text>
+                </View>
+                <View style={{ marginLeft: 120, marginTop: -43, fontSize: 11, width: 100, height: 20, paddingTop: 2 }}>
+                  <Text style={{ display: "flex", width: 100, fontSize: 11, paddingBottom: 7 }}>
+                    <Aperture fill={"rgb(142,142,142)"} width={15} />{" "}
+                    {critique.aperture}
+                  </Text>
+                </View>
+                <View style={{ marginLeft: 120, marginTop: 3, fontSize: 11, width: 100, height: 20, paddingTop: 2 }}>
+                  <Text style={{ display: "flex", width: 100, fontSize: 11, paddingBottom: 7 }}>
+                    <Label fill={"rgb(142,142,142)"} width={15} style={{ marginBottom: -7 }} />{" "}
+                    {critique.category}
+                  </Text>
+                </View>
+              </View>
               {critique ? (
                 <FastImage
                   key={critique.key}
                   style={{
                     position: "absolute",
                     width: 132,
-                    top: 58,
+                    top: 55,
                     right: 20,
                     height: 88,
                   }}

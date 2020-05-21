@@ -21,6 +21,12 @@
 		99BED9A277F574E35A93BD2E /* libPods-ratemyshot-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C31FD92433F4FEA00E9C3E63 /* libPods-ratemyshot-tvOS.a */; };
 		C01A02FB246D9B4A00FC79F9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C01A02FA246D9B4A00FC79F9 /* GoogleService-Info.plist */; };
 		C0327C9675A74EBFB7FD3E14 /* libPods-ratemyshot-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EC8DEBD5964CE059FEC55D7 /* libPods-ratemyshot-tvOSTests.a */; };
+		C0B7DFF4247478DE00006AE8 /* iPhone 11.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B7DFEE247478CF00006AE8 /* iPhone 11.png */; };
+		C0B7DFF5247478DE00006AE8 /* iPhone 8 Plus.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B7DFEF247478D200006AE8 /* iPhone 8 Plus.png */; };
+		C0B7DFF6247478DE00006AE8 /* iPhone 11 Pro Max.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B7DFF0247478D500006AE8 /* iPhone 11 Pro Max.png */; };
+		C0B7DFF7247478DE00006AE8 /* iPhone SE.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B7DFF1247478D800006AE8 /* iPhone SE.png */; };
+		C0B7DFF8247478DE00006AE8 /* iPhone 11 Pro.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B7DFF2247478DB00006AE8 /* iPhone 11 Pro.png */; };
+		C0B7DFF9247478DE00006AE8 /* iPhone 8.png in Resources */ = {isa = PBXBuildFile; fileRef = C0B7DFF3247478DE00006AE8 /* iPhone 8.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,30 +51,36 @@
 		00E356EE1AD99517003FC87E /* ratemyshotTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ratemyshotTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ratemyshotTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ratemyshotTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* ratemyshot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ratemyshot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Artive.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Artive.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ratemyshot/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ratemyshot/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ratemyshot/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ratemyshot/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ratemyshot/main.m; sourceTree = "<group>"; };
-		216A48782D32A89B48C92B7F /* Pods-ratemyshot-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOS/Pods-ratemyshot-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		1A73D1B36F2892DA0A67EE31 /* Pods-ratemyshot-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOS/Pods-ratemyshot-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
+		2083647151D237149746DF88 /* Pods-ratemyshot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot/Pods-ratemyshot.debug.xcconfig"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* ratemyshot-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ratemyshot-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* ratemyshot-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "ratemyshot-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		30C3030A760B08DCF49874C3 /* Pods-ratemyshot-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOSTests/Pods-ratemyshot-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
-		3777C5527DC325EE8704429D /* Pods-ratemyshot-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOSTests/Pods-ratemyshot-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
-		435D37EE174880419DCD4BEA /* Pods-ratemyshot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot/Pods-ratemyshot.release.xcconfig"; sourceTree = "<group>"; };
-		4828A2E8836141396B328EF0 /* Pods-ratemyshot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot/Pods-ratemyshot.debug.xcconfig"; sourceTree = "<group>"; };
-		5F7BF42BAD65A0B9AF7A9D7A /* Pods-ratemyshot-ratemyshotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-ratemyshotTests.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot-ratemyshotTests/Pods-ratemyshot-ratemyshotTests.debug.xcconfig"; sourceTree = "<group>"; };
+		2D98A66221E0DC05784583DB /* Pods-ratemyshot-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOS.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOS/Pods-ratemyshot-tvOS.release.xcconfig"; sourceTree = "<group>"; };
+		350BE2F84BC89DF39C2D771E /* Pods-ratemyshot.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot/Pods-ratemyshot.release.xcconfig"; sourceTree = "<group>"; };
 		646B97254955DDCBF5CFC562 /* libPods-ratemyshot-ratemyshotTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ratemyshot-ratemyshotTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		74F157E82A27E48905202E2F /* Pods-ratemyshot-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOS/Pods-ratemyshot-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		8EC8DEBD5964CE059FEC55D7 /* libPods-ratemyshot-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ratemyshot-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		94A733A001FA83CF11D063CB /* Pods-ratemyshot-ratemyshotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-ratemyshotTests.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot-ratemyshotTests/Pods-ratemyshot-ratemyshotTests.release.xcconfig"; sourceTree = "<group>"; };
 		C01A02FA246D9B4A00FC79F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C0B7DFEE247478CF00006AE8 /* iPhone 11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 11.png"; sourceTree = "<group>"; };
+		C0B7DFEF247478D200006AE8 /* iPhone 8 Plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 8 Plus.png"; sourceTree = "<group>"; };
+		C0B7DFF0247478D500006AE8 /* iPhone 11 Pro Max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 11 Pro Max.png"; sourceTree = "<group>"; };
+		C0B7DFF1247478D800006AE8 /* iPhone SE.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone SE.png"; sourceTree = "<group>"; };
+		C0B7DFF2247478DB00006AE8 /* iPhone 11 Pro.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 11 Pro.png"; sourceTree = "<group>"; };
+		C0B7DFF3247478DE00006AE8 /* iPhone 8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 8.png"; sourceTree = "<group>"; };
 		C0FC70664D0218A3736FCAFD /* libPods-ratemyshot.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ratemyshot.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C31FD92433F4FEA00E9C3E63 /* libPods-ratemyshot-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ratemyshot-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CECB388A4822DA5E7E25167C /* Pods-ratemyshot-ratemyshotTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-ratemyshotTests.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot-ratemyshotTests/Pods-ratemyshot-ratemyshotTests.release.xcconfig"; sourceTree = "<group>"; };
+		DEEB60361E38A44185F4D305 /* Pods-ratemyshot-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOSTests/Pods-ratemyshot-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		F0880AD521682A0A8A33447F /* Pods-ratemyshot-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOSTests/Pods-ratemyshot-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		F34A5C7F884E5DD7A35FF4DC /* Pods-ratemyshot-ratemyshotTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-ratemyshotTests.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot-ratemyshotTests/Pods-ratemyshot-ratemyshotTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +143,12 @@
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				C0B7DFEF247478D200006AE8 /* iPhone 8 Plus.png */,
+				C0B7DFF3247478DE00006AE8 /* iPhone 8.png */,
+				C0B7DFF0247478D500006AE8 /* iPhone 11 Pro Max.png */,
+				C0B7DFF2247478DB00006AE8 /* iPhone 11 Pro.png */,
+				C0B7DFEE247478CF00006AE8 /* iPhone 11.png */,
+				C0B7DFF1247478D800006AE8 /* iPhone SE.png */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
@@ -174,8 +192,8 @@
 				00E356EF1AD99517003FC87E /* ratemyshotTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				DB2BF54436D83C3BE0E18369 /* Pods */,
 				2BD17202D5C74EC9BAF683A0 /* Resources */,
+				9DB220429CCB05485A9D7795 /* Pods */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -185,7 +203,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* ratemyshot.app */,
+				13B07F961A680F5B00A75B9A /* Artive.app */,
 				00E356EE1AD99517003FC87E /* ratemyshotTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* ratemyshot-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* ratemyshot-tvOSTests.xctest */,
@@ -193,17 +211,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DB2BF54436D83C3BE0E18369 /* Pods */ = {
+		9DB220429CCB05485A9D7795 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				4828A2E8836141396B328EF0 /* Pods-ratemyshot.debug.xcconfig */,
-				435D37EE174880419DCD4BEA /* Pods-ratemyshot.release.xcconfig */,
-				5F7BF42BAD65A0B9AF7A9D7A /* Pods-ratemyshot-ratemyshotTests.debug.xcconfig */,
-				94A733A001FA83CF11D063CB /* Pods-ratemyshot-ratemyshotTests.release.xcconfig */,
-				74F157E82A27E48905202E2F /* Pods-ratemyshot-tvOS.debug.xcconfig */,
-				216A48782D32A89B48C92B7F /* Pods-ratemyshot-tvOS.release.xcconfig */,
-				30C3030A760B08DCF49874C3 /* Pods-ratemyshot-tvOSTests.debug.xcconfig */,
-				3777C5527DC325EE8704429D /* Pods-ratemyshot-tvOSTests.release.xcconfig */,
+				2083647151D237149746DF88 /* Pods-ratemyshot.debug.xcconfig */,
+				350BE2F84BC89DF39C2D771E /* Pods-ratemyshot.release.xcconfig */,
+				F34A5C7F884E5DD7A35FF4DC /* Pods-ratemyshot-ratemyshotTests.debug.xcconfig */,
+				CECB388A4822DA5E7E25167C /* Pods-ratemyshot-ratemyshotTests.release.xcconfig */,
+				1A73D1B36F2892DA0A67EE31 /* Pods-ratemyshot-tvOS.debug.xcconfig */,
+				2D98A66221E0DC05784583DB /* Pods-ratemyshot-tvOS.release.xcconfig */,
+				DEEB60361E38A44185F4D305 /* Pods-ratemyshot-tvOSTests.debug.xcconfig */,
+				F0880AD521682A0A8A33447F /* Pods-ratemyshot-tvOSTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -250,7 +268,7 @@
 			);
 			name = ratemyshot;
 			productName = ratemyshot;
-			productReference = 13B07F961A680F5B00A75B9A /* ratemyshot.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Artive.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2D02E47A1E0B4A5D006451C7 /* ratemyshot-tvOS */ = {
@@ -353,8 +371,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				C0B7DFF4247478DE00006AE8 /* iPhone 11.png in Resources */,
+				C0B7DFF8247478DE00006AE8 /* iPhone 11 Pro.png in Resources */,
+				C0B7DFF7247478DE00006AE8 /* iPhone SE.png in Resources */,
+				C0B7DFF6247478DE00006AE8 /* iPhone 11 Pro Max.png in Resources */,
+				C0B7DFF5247478DE00006AE8 /* iPhone 8 Plus.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				C01A02FB246D9B4A00FC79F9 /* GoogleService-Info.plist in Resources */,
+				C0B7DFF9247478DE00006AE8 /* iPhone 8.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,7 +727,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F7BF42BAD65A0B9AF7A9D7A /* Pods-ratemyshot-ratemyshotTests.debug.xcconfig */;
+			baseConfigurationReference = F34A5C7F884E5DD7A35FF4DC /* Pods-ratemyshot-ratemyshotTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -726,7 +750,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 94A733A001FA83CF11D063CB /* Pods-ratemyshot-ratemyshotTests.release.xcconfig */;
+			baseConfigurationReference = CECB388A4822DA5E7E25167C /* Pods-ratemyshot-ratemyshotTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -746,11 +770,11 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4828A2E8836141396B328EF0 /* Pods-ratemyshot.debug.xcconfig */;
+			baseConfigurationReference = 2083647151D237149746DF88 /* Pods-ratemyshot.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D73X7YXDPQ;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -759,14 +783,14 @@
 				);
 				INFOPLIST_FILE = ratemyshot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ratemyshot;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.ratemyshot;
+				PRODUCT_NAME = Artive;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -775,22 +799,22 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 435D37EE174880419DCD4BEA /* Pods-ratemyshot.release.xcconfig */;
+			baseConfigurationReference = 350BE2F84BC89DF39C2D771E /* Pods-ratemyshot.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D73X7YXDPQ;
 				INFOPLIST_FILE = ratemyshot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.4;
+				MARKETING_VERSION = 1.0.7;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = ratemyshot;
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.ratemyshot;
+				PRODUCT_NAME = Artive;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -798,7 +822,7 @@
 		};
 		2D02E4971E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74F157E82A27E48905202E2F /* Pods-ratemyshot-tvOS.debug.xcconfig */;
+			baseConfigurationReference = 1A73D1B36F2892DA0A67EE31 /* Pods-ratemyshot-tvOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -826,7 +850,7 @@
 		};
 		2D02E4981E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 216A48782D32A89B48C92B7F /* Pods-ratemyshot-tvOS.release.xcconfig */;
+			baseConfigurationReference = 2D98A66221E0DC05784583DB /* Pods-ratemyshot-tvOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -854,7 +878,7 @@
 		};
 		2D02E4991E0B4A5E006451C7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 30C3030A760B08DCF49874C3 /* Pods-ratemyshot-tvOSTests.debug.xcconfig */;
+			baseConfigurationReference = DEEB60361E38A44185F4D305 /* Pods-ratemyshot-tvOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -881,7 +905,7 @@
 		};
 		2D02E49A1E0B4A5E006451C7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3777C5527DC325EE8704429D /* Pods-ratemyshot-tvOSTests.release.xcconfig */;
+			baseConfigurationReference = F0880AD521682A0A8A33447F /* Pods-ratemyshot-tvOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;

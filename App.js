@@ -6,6 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { connect } from "react-redux";
 import Login from "./Screens/Login";
 import Post from "./Screens/Post";
+import SplashScreen from 'react-native-splash-screen';
 import HomeComponent from "./Screens/Home";
 import { View, Text, TouchableOpacity, Button } from "react-native";
 import Trophy from "./assets/static/trophy";
@@ -14,7 +15,7 @@ import Home from "./assets/static/home";
 import ContestsComponent from "./Screens/Contests";
 import GestureRecognizer, {
   swipeDirections,
-} from "react-native-swipe-gestures";
+} from "./assets/static/gestures";
 import { Creators } from "./Components/redux";
 
 const Tab = createBottomTabNavigator();
@@ -64,6 +65,7 @@ function MyTabs(props) {
   };
 
   useEffect(() => {
+    SplashScreen.hide();
     // eslint-disable-next-line no-shadow
     auth().onAuthStateChanged((thisuser) => {
       onAuthStateChanged(thisuser);
@@ -122,11 +124,11 @@ function MyTabs(props) {
             >
               <View style={{ display: !greetingStatus ? "flex" : "none" }}>
                 {route.name === "Home" || route.name === "Login" ? (
-                  <Home fill={isFocused ? "#f8504d" : "#222"} />
+                  <Home fill={isFocused ? "#FBC02D" : "#222"} />
                 ) : route.name === "Post" ? (
-                  <Camera fill={isFocused ? "#f8504d" : "#222"} />
+                  <Camera fill={isFocused ? "#FBC02D" : "#222"} />
                 ) : route.name === "Contests" ? (
-                  <Trophy fill={isFocused ? "#f8504d" : "#222"} />
+                  <Trophy fill={isFocused ? "#FBC02D" : "#222"} />
                 ) : null}
               </View>
             </TouchableOpacity>

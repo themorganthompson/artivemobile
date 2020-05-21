@@ -81,6 +81,7 @@ target 'ratemyshot' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+
   target 'ratemyshotTests' do
     inherit! :complete
     # Pods for testing

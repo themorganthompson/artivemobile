@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Image } from "react-native";
 import Logo from "./../assets/static/logo";
+import LoginLogo from "../assets/static/logoLogin";
 
 export default class circle extends Component {
   render() {
@@ -15,7 +16,7 @@ export default class circle extends Component {
           display: "flex",
         }}
       >
-			<Logo
+			<LoginLogo
           style={{
             width: 80,
             height: 80,
@@ -23,7 +24,7 @@ export default class circle extends Component {
             marginRight: "auto",
             alignContent: "center",
             borderRadius: 50,
-            marginTop: 100,
+            marginTop: 65,
             marginBottom: 45
           }}
         />
