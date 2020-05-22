@@ -8,14 +8,11 @@ import Login from "./Screens/Login";
 import Post from "./Screens/Post";
 import SplashScreen from 'react-native-splash-screen';
 import HomeComponent from "./Screens/Home";
-import { View, Text, TouchableOpacity, Button } from "react-native";
+import { View, Text, TouchableOpacity, Button, useWindowDimensions } from "react-native";
 import Trophy from "./assets/static/trophy";
 import Camera from "./assets/static/camera";
 import Home from "./assets/static/home";
 import ContestsComponent from "./Screens/Contests";
-import GestureRecognizer, {
-  swipeDirections,
-} from "./assets/static/gestures";
 import { Creators } from "./Components/redux";
 
 const Tab = createBottomTabNavigator();
@@ -29,6 +26,7 @@ function MyTabs(props) {
   const [navigation, setNavigation] = useState();
   const [gestureName, setGestureName] = useState("none");
   const [user, setUser] = useState({});
+  const height = useWindowDimensions().height;
 
   const togglePost = (post) => {
     setRatePost(post);
@@ -43,24 +41,24 @@ function MyTabs(props) {
     }
   };
 
-  const onSwipe = (gestureName) => {
-    if (gestureName === 'SWIPE_LEFT') {
-      if (currentRoute == "Home") {
-        navigation.navigate("Post");
-      }
-      if (currentRoute == "Post") {
-        navigation.navigate("Contests");
-      }
-    }
-    if (gestureName === 'SWIPE_RIGHT') {
-      if (currentRoute == "Contests") {
-        navigation.navigate("Post");
-      }
-      if (currentRoute == "Post") {
-        navigation.navigate("Home");
-      }
-    }
-  };
+  // const onSwipe = (gestureName) => {
+  //   if (gestureName === 'SWIPE_LEFT') {
+  //     if (currentRoute == "Home") {
+  //       navigation.navigate("Post");
+  //     }
+  //     if (currentRoute == "Post") {
+  //       navigation.navigate("Contests");
+  //     }
+  //   }
+  //   if (gestureName === 'SWIPE_RIGHT') {
+  //     if (currentRoute == "Contests") {
+  //       navigation.navigate("Post");
+  //     }
+  //     if (currentRoute == "Post") {
+  //       navigation.navigate("Home");
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     SplashScreen.hide();
@@ -109,18 +107,19 @@ function MyTabs(props) {
               onLongPress={onLongPress}
               style={{
                 flex: 1,
-                height: 60,
+                height: height < 896 ? 40 : 60,
                 width: 100,
                 paddingLeft: 50,
                 paddingTop: 20,
-                marginBottom: 20,
+                marginTop: 0,
+                marginBottom:  height < 896 ? 0 : 20,
                 paddingRight: 50,
                 textAlign: "center",
                 alignItems: "center",
-                paddingBottom: 50,
+                paddingBottom:  height < 896 ? 40 : 50,
               }}
             >
-              <View style={{ display: !greetingStatus ? "flex" : "none" }}>
+              <View style={{ display: !greetingStatus ? "flex" : "none",  marginTop: 0 }}>
                 {route.name === "Home" || route.name === "Login" ? (
                   <Home fill={isFocused ? "#FBC02D" : "#222"} />
                 ) : route.name === "Post" ? (
@@ -136,27 +135,27 @@ function MyTabs(props) {
     );
   }
 
-  const config = {
-    velocityThreshold: 0.2,
-    directionalOffsetThreshold: 10,
-  };
+  // const config = {
+  //   velocityThreshold: 0.2,
+  //   directionalOffsetThreshold: 10,
+  // };
 
   function HomeScreen() {
     return (
       <>
-        <GestureRecognizer
+        {/* <GestureRecognizer
           onSwipe={(direction) => onSwipe(direction)}
           config={config}
           style={{
             flex: 1,
           }}
-        >
+        > */}
           <HomeComponent
             togglePost={(post) => togglePost(post)}
             user={user}
             {...props}
           />
-        </GestureRecognizer>
+        {/* </GestureRecognizer> */}
       </>
     );
   }
@@ -164,15 +163,15 @@ function MyTabs(props) {
   function PostScreen() {
     return (
       <>
-        <GestureRecognizer
+        {/* <GestureRecognizer
           onSwipe={(direction) => onSwipe(direction)}
           config={config}
           style={{
             flex: 1,
           }}
-        >
+        > */}
           <Post {...props} />
-        </GestureRecognizer>
+        {/* </GestureRecognizer> */}
       </>
     );
   }
@@ -180,15 +179,15 @@ function MyTabs(props) {
   function ContestsScreen() {
     return (
       <>
-        <GestureRecognizer
+        {/* <GestureRecognizer
           onSwipe={(direction) => onSwipe(direction)}
           config={config}
           style={{
             flex: 1,
           }}
-        >
+        > */}
           <ContestsComponent {...props} />
-        </GestureRecognizer>
+        {/* </GestureRecognizer> */}
       </>
     );
   }

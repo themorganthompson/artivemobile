@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   Button,
   Link,
+  useWindowDimensions,
 } from "react-native";
 import { Creators } from "../Components/redux";
 import Menu from "../assets/static/menu";
@@ -31,6 +32,7 @@ function Head(props) {
   const [ratePost, setRatePost] = useState({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [user, setUser] = useState(props.user);
+  const height = useWindowDimensions().height;
 
   const togglePost = (post) => {
     setRatePost(post);
@@ -63,7 +65,7 @@ function Head(props) {
       <StatusBar backgroundColor="#FBC02D" barStyle="light-content" />
       <View
         style={{
-          height: 110,
+          height: height < 896 ? 70 : 110,
           color: "white",
           backgroundColor: "#FBC02D",
           justifyContent: "center",
@@ -75,7 +77,7 @@ function Head(props) {
           style={{
             color: "white",
             marginBottom: 0,
-            marginTop: 62,
+            marginTop: height < 896 ? 22 : 62,
             width: 85,
             marginLeft: "auto",
             marginRight: "auto",
@@ -87,7 +89,9 @@ function Head(props) {
         {user ? (
           <TouchableOpacity
             onPress={() => toggleModal(!isModalVisible)}
-            style={{ position: "absolute",height:50, width:100, top: 76, right: -58, zIndex: 1240}}
+            style={{ position: "absolute",height:50, width:100, 
+            top: height < 896 ? 38 : 76, 
+            right: -58, zIndex: 1240}}
           >
             <Menu fill={"white"} onPress={() => toggleModal(!isModalVisible)} />
           </TouchableOpacity>
@@ -112,8 +116,6 @@ function Head(props) {
             style={{
               height: 45,
               width: "100%",
-              borderBottomColor: "#d7d7d7",
-              borderBottomWidth: 0.7,
             }}
           >
             <Collapse
@@ -125,6 +127,7 @@ function Head(props) {
           </View>
           <Text style={{ textAlign: "center", marginTop: 20 }}>
             {user ? user.phoneNumber : ""}
+            <Text style={{color: "blue"}}>{height}</Text>
           </Text>
           <Button title="Logout" onPress={() => Logout()} />
         </View>

@@ -26,6 +26,7 @@ import {
   AsyncStorage,
   StyleSheet,
   TouchableOpacity,
+  useWindowDimensions,
 } from "react-native";
 import { AlignCenter } from "react-feather";
 
@@ -44,6 +45,7 @@ const Posts = (props) => {
     "Crop",
     "Perspective"];
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const height = useWindowDimensions().height;
   const [posts, setPosts] = useState([]);
   const [critique, setCritique] = useState({});
   const [postLoading, setPostLoading] = useState(true);
@@ -225,7 +227,7 @@ const Posts = (props) => {
 
   return (
     <>
-      <SafeAreaView style={{ marginBottom: 100, zIndex: 1 }}>
+      <SafeAreaView style={{ marginBottom: 70, zIndex: 1 }}>
         <ScrollView style={{ zIndex: 1 }}>
           {postLoading ? (
             <ActivityIndicator
@@ -273,9 +275,12 @@ const Posts = (props) => {
         >
           <View
             style={{
-              height: !alreadyCritiqued ? 900 : 400,
+              height: height < 896 ?
+              (!alreadyCritiqued ? 1000 : 380) :
+              (!alreadyCritiqued ? 900 : 400),
               backgroundColor: "white",
               width: "100%",
+              borderRadius:  12,
               marginTop: 680,
             }}
           >
@@ -284,8 +289,6 @@ const Posts = (props) => {
                 style={{
                   height: 40,
                   paddingBottom: 2,
-                  borderBottomColor: "#d7d7d7",
-                  borderBottomWidth: 0.7,
                 }}
               >
                 <Collapse
@@ -312,8 +315,6 @@ const Posts = (props) => {
               </View>
               <View style={{
                 height: 120,
-                borderBottomColor: "#d7d7d7",
-                borderBottomWidth: !alreadyCritiqued ? 0.7 : 0,
               }}>
                 <Text
                   style={{
