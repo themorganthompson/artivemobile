@@ -99,7 +99,7 @@ function Head(props) {
       <Modal
         coverScreen={true}
         isVisible={isModalVisible}
-        hasBackdrop={false}
+        hasBackdrop={true}
         deviceWidth={window.width}
         style={{ margin: 0 }}
       >
