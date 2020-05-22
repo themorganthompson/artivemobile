@@ -141,9 +141,9 @@ const Posts = (props) => {
         submitted: Moment().format('YYYY-MM-DD hh:mm:ss a')
       }).then(() => {
         setChipsTouched([]);
+        setIsModalVisible(false);
         setCritique({});
         setRating(0);
-        setIsModalVisible(false);
       });
     }
   }
@@ -165,32 +165,40 @@ const Posts = (props) => {
   );
 
   async function toggleCritique(post) {
-    var ref = firebase.database().ref("post-critiques/");
-    await setCritique(post);
-    if (props.user && !isModalVisible) {
-      await ref.orderByChild("post").equalTo(post.key).once("value", (snapshot) => {
-        if (snapshot.val()) {
-          let critiques = [];
-          let list = [];
-          critiques.push(snapshot.val());
-          var critRes = Object.keys(critiques[0]).map(function (key) {
-            return [String(key), critiques[0][key]];
-          });
-          list = Object.values(critRes.map(x => x[1]));
-          if (list.map(x => x.uid === props.user.uid).length > 0) {
-            setAlreadyCritiqued(true);
+    if (!isModalVisible) {
+      var ref = firebase.database().ref("post-critiques/");
+      await setCritique(post);
+      if (props.user) {
+        await ref.orderByChild("post").equalTo(post.key).once("value", (snapshot) => {
+          if (snapshot.val()) {
+            let critiques = [];
+            let list = [];
+            critiques.push(snapshot.val());
+            var critRes = Object.keys(critiques[0]).map(function (key) {
+              return [String(key), critiques[0][key]];
+            });
+            list = Object.values(critRes.map(x => x[1]));
+            if (list.map(x => x.uid === props.user.uid).length > 0) {
+              setAlreadyCritiqued(true);
+              return;
+            };
+          } else {
+            setAlreadyCritiqued(false);
             return;
-          };
-        } else {
-          return;
-        }
-      });
+          }
+        });
 
-      setIsModalVisible(!isModalVisible);
-      return;
+        setIsModalVisible(!isModalVisible);
+        return;
+      } else {
+        setAlreadyCritiqued(false);
+        setIsModalVisible(!isModalVisible);
+      }
     } else {
-      setAlreadyCritiqued(false);
-      setIsModalVisible(!isModalVisible);
+      setChipsTouched([]);
+      setIsModalVisible(false);
+      setCritique({});
+      setRating(0);
     }
   }
 
@@ -294,12 +302,12 @@ const Posts = (props) => {
                     fontSize: 18,
                     fontWeight: "600",
                     top: 8,
-                    marginLeft:  !alreadyCritiqued ?"44%" : "42%",
+                    marginLeft: !alreadyCritiqued ? "44%" : "42%",
                     marginRight: "auto",
                   }}
                   onPress={() => toggleCritique({})}
                 >
-                 {!alreadyCritiqued ? "Critique" : "Critiqued"}
+                  {!alreadyCritiqued ? "Critique" : "Critiqued"}
                 </Text>
               </View>
               <View style={{
@@ -399,7 +407,7 @@ const Posts = (props) => {
                 onPress={() => submitCritique()}
               >
                 <Text style={styles.textstyle}>
-                  <Check fill="black" style={{ marginTop: 25 }} width={25} />
+                  <Check fill="black" style={{ marginTop: 22 }} width={25} />
                 </Text>
               </TouchableOpacity> : null}
               {critique ? (
