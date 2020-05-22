@@ -195,7 +195,7 @@ function MyTabs(props) {
 
   return (
     <NavigationContainer>
-      {user && user.user !== null ? (
+     {user.uid !== undefined ? (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Post" component={PostScreen} />
@@ -203,11 +203,7 @@ function MyTabs(props) {
         </Tab.Navigator>
       ) : (
         <Tab.Navigator tabBar={(props) => <View />}>
-          {user && user.user === null ? (
             <Tab.Screen name="Login" component={Login} />
-          ) : (
-            <Tab.Screen name="Home" component={HomeScreen} />
-          )}
         </Tab.Navigator>
       )}
     </NavigationContainer>

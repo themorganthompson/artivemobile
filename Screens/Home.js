@@ -8,6 +8,7 @@ import FastImage from "react-native-fast-image";
 import Collapse from "../assets/static/collapse";
 import { Chip } from 'react-native-paper';
 import Camera from "../assets/static/camera";
+import Info from "../assets/static/info";
 import HeartEmpty from "../assets/static/heart-empty";
 import HeartFill from "../assets/static/heart-fill";
 import Aperture from "../assets/static/apertureSVG";
@@ -170,11 +171,13 @@ const Posts = (props) => {
       await ref.orderByChild("post").equalTo(post.key).once("value", (snapshot) => {
         if (snapshot.val()) {
           let critiques = [];
+          let list = [];
           critiques.push(snapshot.val());
           var critRes = Object.keys(critiques[0]).map(function (key) {
-            return [Number(key), critiques[0][key]];
+            return [String(key), critiques[0][key]];
           });
-          if (critRes.filter(x => x[1].uid === props.user.uid).length > 0) {
+          list = Object.values(critRes.map(x => x[1]));
+          if (list.map(x => x.uid === props.user.uid).length > 0) {
             setAlreadyCritiqued(true);
             return;
           };
@@ -182,7 +185,7 @@ const Posts = (props) => {
           return;
         }
       });
-     
+
       setIsModalVisible(!isModalVisible);
       return;
     } else {
@@ -256,7 +259,7 @@ const Posts = (props) => {
         <Modal
           coverScreen={true}
           isVisible={isModalVisible}
-          hasBackdrop={false}
+          hasBackdrop={true}
           deviceWidth={window.width}
           style={{ margin: 0 }}
         >
@@ -265,7 +268,7 @@ const Posts = (props) => {
               height: !alreadyCritiqued ? 900 : 400,
               backgroundColor: "white",
               width: "100%",
-              marginTop: 780,
+              marginTop: 680,
             }}
           >
             <>
@@ -289,13 +292,14 @@ const Posts = (props) => {
                     width: 100,
                     color: "#FBC02D",
                     fontSize: 18,
+                    fontWeight: "600",
                     top: 8,
-                    marginLeft: "44%",
+                    marginLeft:  !alreadyCritiqued ?"44%" : "42%",
                     marginRight: "auto",
                   }}
                   onPress={() => toggleCritique({})}
                 >
-                  Critique
+                 {!alreadyCritiqued ? "Critique" : "Critiqued"}
                 </Text>
               </View>
               <View style={{
@@ -381,6 +385,7 @@ const Posts = (props) => {
                     })}
                   </View> : null}
               </View>
+
               {!alreadyCritiqued ? <TouchableOpacity
                 disabled={chipsTouched.length == 0 || rating === 0}
                 style={{
