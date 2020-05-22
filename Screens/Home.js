@@ -275,7 +275,7 @@ const Posts = (props) => {
         >
           <View
             style={{
-              height: height < 896 ?
+              height: height < 812 ?
               (!alreadyCritiqued ? 1000 : 380) :
               (!alreadyCritiqued ? 900 : 400),
               backgroundColor: "white",
@@ -305,7 +305,8 @@ const Posts = (props) => {
                     fontSize: 18,
                     fontWeight: "600",
                     top: 8,
-                    marginLeft: !alreadyCritiqued ? "44%" : "42%",
+                    marginLeft: !alreadyCritiqued ? 
+                      (height < 812 ? "41%" : "42%") : "41%",
                     marginRight: "auto",
                   }}
                   onPress={() => toggleCritique({})}

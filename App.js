@@ -107,19 +107,19 @@ function MyTabs(props) {
               onLongPress={onLongPress}
               style={{
                 flex: 1,
-                height: height < 896 ? 40 : 60,
+                height: height < 812 ? 40 : 60,
                 width: 100,
                 paddingLeft: 50,
                 paddingTop: 20,
                 marginTop: 0,
-                marginBottom:  height < 896 ? 0 : 20,
+                marginBottom: height < 812 ? 0 : 20,
                 paddingRight: 50,
                 textAlign: "center",
                 alignItems: "center",
-                paddingBottom:  height < 896 ? 40 : 50,
+                paddingBottom: height < 812 ? 40 : 50,
               }}
             >
-              <View style={{ display: !greetingStatus ? "flex" : "none",  marginTop: 0 }}>
+              <View style={{ display: !greetingStatus ? "flex" : "none", marginTop: 0 }}>
                 {route.name === "Home" || route.name === "Login" ? (
                   <Home fill={isFocused ? "#FBC02D" : "#222"} />
                 ) : route.name === "Post" ? (
@@ -150,11 +150,11 @@ function MyTabs(props) {
             flex: 1,
           }}
         > */}
-          <HomeComponent
-            togglePost={(post) => togglePost(post)}
-            user={user}
-            {...props}
-          />
+        <HomeComponent
+          togglePost={(post) => togglePost(post)}
+          user={user}
+          {...props}
+        />
         {/* </GestureRecognizer> */}
       </>
     );
@@ -170,7 +170,7 @@ function MyTabs(props) {
             flex: 1,
           }}
         > */}
-          <Post {...props} />
+        <Post {...props} />
         {/* </GestureRecognizer> */}
       </>
     );
@@ -186,28 +186,35 @@ function MyTabs(props) {
             flex: 1,
           }}
         > */}
-          <ContestsComponent {...props} />
+        <ContestsComponent {...props} />
         {/* </GestureRecognizer> */}
+      </>
+    );
+  }
+
+  function LoginScreen() {
+    return (
+      <>
+        <Login height={height} {...props} />
       </>
     );
   }
 
   return (
     <NavigationContainer>
-     {user.uid !== undefined ? (
+      {user.uid !== undefined ? (
         <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
           <Tab.Screen name="Home" component={HomeScreen} />
           <Tab.Screen name="Post" component={PostScreen} />
           <Tab.Screen name="Contests" component={ContestsScreen} />
         </Tab.Navigator>
       ) : (
-        <Tab.Navigator tabBar={(props) => <View />}>
-            <Tab.Screen name="Login" component={Login} />
-        </Tab.Navigator>
-      )}
+          <Tab.Navigator tabBar={(props) => <View />}>
+            <Tab.Screen name="Login" component={LoginScreen} />
+          </Tab.Navigator>
+        )}
     </NavigationContainer>
   );
 }
-
 
 export default MyTabs;

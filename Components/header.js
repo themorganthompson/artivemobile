@@ -65,7 +65,7 @@ function Head(props) {
       <StatusBar backgroundColor="#FBC02D" barStyle="light-content" />
       <View
         style={{
-          height: height < 896 ? 70 : 110,
+          height: height < 812 ? 70 : 110,
           color: "white",
           backgroundColor: "#FBC02D",
           justifyContent: "center",
@@ -77,7 +77,7 @@ function Head(props) {
           style={{
             color: "white",
             marginBottom: 0,
-            marginTop: height < 896 ? 22 : 62,
+            marginTop: height < 812 ? 22 : 62,
             width: 85,
             marginLeft: "auto",
             marginRight: "auto",
@@ -90,7 +90,7 @@ function Head(props) {
           <TouchableOpacity
             onPress={() => toggleModal(!isModalVisible)}
             style={{ position: "absolute",height:50, width:100, 
-            top: height < 896 ? 38 : 76, 
+            top: height < 812 ? 38 : 76, 
             right: -58, zIndex: 1240}}
           >
             <Menu fill={"white"} onPress={() => toggleModal(!isModalVisible)} />
@@ -101,11 +101,12 @@ function Head(props) {
         isVisible={isModalVisible}
         hasBackdrop={true}
         deviceWidth={window.width}
-        style={{ margin: 0 }}
+        style={{ margin: 0}}
       >
         <View
           style={{
             height: 600,
+            borderRadius: 12,
             backgroundColor: "white",
             width: "100%",
             marginTop: 880,
