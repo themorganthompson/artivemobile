@@ -48,7 +48,7 @@ const Posts = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const height = useWindowDimensions().height;
   const [posts, setPosts] = useState([]);
-  const [comment, setComment] = useState(null);
+  const [comment, setComment] = useState("");
   const [critique, setCritique] = useState({});
   const [postLoading, setPostLoading] = useState(true);
   const [chipsTouched, setChipsTouched] = useState([]);
@@ -145,18 +145,49 @@ const Posts = (props) => {
 
   async function submitCritique() {
     if (props.user) {
+      let postRef =  firebase.database().ref("posts/" + critique.key);
       var ref = firebase.database().ref("post-critiques/");
+      if (rating === 1) {
+        postRef.update({
+          oneStar: critique.oneStar + 1,
+          total: critique.total + 1,
+        });
+      } else if (rating === 2) {
+        postRef.update({
+          twoStars: critique.twoStars + 1,
+          total: critique.total + 1,
+        });
+      } else if (rating === 3) {
+        postRef.update({
+          threeStars: critique.threeStars + 1,
+          total: critique.total + 1,
+        });
+      } else if (rating === 4) {
+        postRef.update({
+          fourStars: critique.fourStars + 1,
+          total: critique.total + 1,
+        });
+      } else if (rating === 5) {
+        postRef.update({
+          fiveStars: critique.fiveStars + 1,
+          total: critique.total + 1,
+        });
+      }
       ref.push({
         uid: props.user.uid,
+        author: critique.author,
+        location: critique.location,
+        imageLink: critique.imageLink,
         post: critique.key,
-        Perspective: chipsTouched.filter(c => c === 'Perspective').length > 0 ? 1 : 0,
-        Composition: chipsTouched.filter(c => c === 'Composition').length > 0 ? 1 : 0,
-        Concept: chipsTouched.filter(c => c === 'Concept').length > 0 ? 1 : 0,
-        Crop: chipsTouched.filter(c => c === 'Crop').length > 0 ? 1 : 0,
-        Emotion: chipsTouched.filter(c => c === 'Emotion').length > 0 ? 1 : 0,
-        Focus: chipsTouched.filter(c => c === 'Focus').length > 0 ? 1 : 0,
-        Lighting: chipsTouched.filter(c => c === 'Lighting').length > 0 ? 1 : 0,
+        comment: comment,
         Rating: rating,
+        Composition: 0,
+        Concept: 0,
+        Crop: 0,
+        Emotion: 0,
+        Focus: 0,
+        Lighting: 0,
+        Perspective: 0,
         submitted: Moment().format('YYYY-MM-DD hh:mm:ss a')
       }).then(() => {
         setChipsTouched([]);
@@ -382,7 +413,7 @@ const Posts = (props) => {
                         width: "100%",
                         padding: 10
                       }}
-                      onChangeText={text => { console.log(text); }}
+                      onChangeText={text => { setComment(text); }}
                       value={comment}
                     />
                   </View> : null}
@@ -399,10 +430,10 @@ const Posts = (props) => {
                   />
                 </View> : null}
               {!alreadyCritiqued ? <TouchableOpacity
-                disabled={chipsTouched.length == 0 || rating === 0}
+                disabled={comment.length == 0 || rating === 0}
                 style={{
                   backgroundColor:
-                    chipsTouched.length == 0 || rating === 0
+                    comment.length == 0 || rating === 0
                       ? "#8e8e8e"
                       : "#FBC02D",
                   ...styles.button,
