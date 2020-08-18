@@ -88,7 +88,7 @@ const RateSheet = (props) => {
               fontWeight: "600",
             }}
           >
-            {props.ratePost ? props.ratePost.caption : "A Caption Would Go Here"}
+            {props.ratePost ? props.ratePost.location : "A Caption Would Go Here"}
           </Text>
           <Text style={{ marginLeft: 20, fontSize: 11 }}>
             {props.ratePost

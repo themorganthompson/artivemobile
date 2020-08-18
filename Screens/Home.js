@@ -23,7 +23,7 @@ import {
   ScrollView,
   View,
   TouchableHighlight,
-  AsyncStorage,
+  TextInput,
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
@@ -32,6 +32,7 @@ import { AlignCenter } from "react-feather";
 
 const Posts = (props) => {
   let postz = [];
+  const [sort] = useState({ sort: "total", order: "asc" });
   const [rating, setRating] = useState(0);
   const [alreadyCritiqued, setAlreadyCritiqued] = useState(false);
   let ordered = [];
@@ -47,6 +48,7 @@ const Posts = (props) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const height = useWindowDimensions().height;
   const [posts, setPosts] = useState([]);
+  const [comment, setComment] = useState(null);
   const [critique, setCritique] = useState({});
   const [postLoading, setPostLoading] = useState(true);
   const [chipsTouched, setChipsTouched] = useState([]);
@@ -58,6 +60,23 @@ const Posts = (props) => {
 
   const deSelectChip = (chip) => {
     setChipsTouched(chipsTouched.filter(e => e !== chip));
+  }
+
+  const deDupe = (array) => {
+    return array.reduce((acc, current) => {
+      const x = acc.find(item => item.key === current.key);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
+  }
+
+  const getDays = (submit) => {
+    var submitted = Moment(submit);
+    var today = Moment().endOf('day').format('YYYY-MM-DD');
+    return today <= Moment(Moment(submit)).add(7, 'd').format('YYYY-MM-DD')
   }
 
   const getPosts = async (mounted) => {
@@ -82,7 +101,7 @@ const Posts = (props) => {
               lens: child[1].lens,
               camera: child[1].camera,
               category: child[1].category,
-              caption: child[1].caption,
+              location: child[1].location,
               oneStar: child[1].oneStar,
               twoStars: child[1].twoStars,
               threeStars: child[1].threeStars,
@@ -109,22 +128,20 @@ const Posts = (props) => {
       });
 
     if (mounted) {
-      setLocalPosts(ordered);
+      if (props.user) {
+        setPosts(
+          deDupe(ordered.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+            .filter(i => i.author !== props.user.uid && getDays(i.submitted)))
+        );
+      } else if (!props.user) {
+        setPosts(
+          deDupe(ordered.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
+            .filter(i => getDays(i.submitted)))
+        );
+      }
     }
     return ordered;
   };
-
-  async function getLocalPosts(mounted) {
-    const value = JSON.parse(await AsyncStorage.getItem("posts"));
-    if (value && value.length > 0) {
-      setPosts(value);
-      setTimeout(() => {
-        setPostLoading(false);
-      }, 500);
-    } else {
-      getPosts(mounted);
-    }
-  }
 
   async function submitCritique() {
     if (props.user) {
@@ -150,16 +167,10 @@ const Posts = (props) => {
     }
   }
 
-  async function setLocalPosts(list) {
-    setPosts(list);
-    setPostLoading(false);
-    await AsyncStorage.setItem("posts", JSON.stringify(list));
-  }
-
   useEffect(
     () => {
       let mounted = true;
-      getLocalPosts(mounted);
+      getPosts(mounted);
       return () => (mounted = false);
     },
     // eslint-disable-next-line
@@ -190,11 +201,12 @@ const Posts = (props) => {
           }
         });
 
-        setIsModalVisible(!isModalVisible);
+        setIsModalVisible(true);
         return;
       } else {
         setAlreadyCritiqued(false);
-        setIsModalVisible(!isModalVisible);
+        setIsModalVisible(true);
+        return;
       }
     } else {
       setChipsTouched([]);
@@ -276,11 +288,11 @@ const Posts = (props) => {
           <View
             style={{
               height: height < 812 ?
-              (!alreadyCritiqued ? 1000 : 380) :
-              (!alreadyCritiqued ? 900 : 400),
+                (!alreadyCritiqued ? 1000 : 380) :
+                (!alreadyCritiqued ? 900 : 400),
               backgroundColor: "white",
               width: "100%",
-              borderRadius:  12,
+              borderRadius: 12,
               marginTop: 680,
             }}
           >
@@ -305,7 +317,7 @@ const Posts = (props) => {
                     fontSize: 18,
                     fontWeight: "600",
                     top: 8,
-                    marginLeft: !alreadyCritiqued ? 
+                    marginLeft: !alreadyCritiqued ?
                       (height < 812 ? "41%" : "42%") : "41%",
                     marginRight: "auto",
                   }}
@@ -325,7 +337,7 @@ const Posts = (props) => {
                     fontWeight: "600",
                   }}
                 >
-                  {critique ? critique.caption : "A Caption Would Go Here"}
+                  {critique.location && critique.location.length > 20 ? (critique.location.substring(0, 20 - 3) + "...") : critique.location}
                 </Text>
                 <Text style={{ marginLeft: 20, fontSize: 11 }}>
                   {critique
@@ -358,8 +370,25 @@ const Posts = (props) => {
                   </Text>
                 </View>
               </View>
+              <View style={{ display: 'flex', height: 80, marginBottom: 0, marginTop: 0 }}>
+                {!alreadyCritiqued ?
+                  <View style={{ margin: 20, marginLeft: 28, flexWrap: 'wrap', alignItems: 'center', display: 'flex', width: "85%" }} >
+                    <TextInput
+                      style={{
+                        height: 40,
+                        borderColor: 'lightgray',
+                        borderWidth: 1,
+                        borderRadius: 6,
+                        width: "100%",
+                        padding: 10
+                      }}
+                      onChangeText={text => { console.log(text); }}
+                      value={comment}
+                    />
+                  </View> : null}
+              </View>
               {!alreadyCritiqued ?
-                <View style={{ marginTop: 10, marginBottom: 0 }}>
+                <View style={{ marginTop: 0, marginBottom: 20 }}>
                   <AirbnbRating
                     useNativeDriver={true}
                     count={5}
@@ -369,33 +398,6 @@ const Posts = (props) => {
                     onFinishRating={(count) => ratingCompleted(count)}
                   />
                 </View> : null}
-              <View style={{ display: 'flex', height: 220, marginBottom: 0, marginTop: 0 }}>
-                {!alreadyCritiqued ?
-                  <View style={{ margin: 20, marginLeft: 60, flexWrap: 'wrap', alignItems: 'center', display: 'flex' }} >
-                    {chips.map(chipy => {
-                      return (
-                        <Chip mode="outlined"
-                          key={chipy}
-                          textStyle={{ color: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'black', fontWeight: chipsTouched.filter(c => c === chipy).length > 0 ? '500' : 'normal' }}
-                          style={{
-                            margin: 5, height: 35, backgroundColor: 'white',
-                            borderColor: chipsTouched.filter(c => c === chipy).length > 0 ? '#FBC02D' : 'rgb(186, 186, 186)', borderWidth: 1.2
-                          }} onPress={() => {
-                            chipsTouched.filter(c => c === chipy).length > 0 ? deSelectChip(chipy) : selectChip(chipy)
-                          }}>{chipy}
-                          {chipsTouched.filter(c => c === chipy).length === 0 ?
-                            <HeartEmpty
-                              fill={'rgb(186, 186, 186)'}
-                              width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} /> :
-                            <HeartFill
-                              fill={'#FBC02D'}
-                              width={10} style={{ position: 'relative', marginLeft: 18, width: 15 }} />}
-                        </Chip>
-                      )
-                    })}
-                  </View> : null}
-              </View>
-
               {!alreadyCritiqued ? <TouchableOpacity
                 disabled={chipsTouched.length == 0 || rating === 0}
                 style={{
