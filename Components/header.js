@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, { Component, useState, useEffect } from "react";
 import { connect } from "react-redux";
+import { CommonActions } from '@react-navigation/native';
 import {
   StatusBar,
   View,
@@ -52,7 +53,8 @@ function Head(props) {
         setUser(null);
         props.user = null;
         Creators.failure(null);
-        alert(error);
+        // alert(error);
+        toggleModal();
       });
   };
 
@@ -83,25 +85,27 @@ function Head(props) {
             marginRight: "auto",
           }}
         >
-          <Logo fill="white" {...props} />
+          {props.title === "Create" ? <Text style={{ color: "white", fontSize: 28}}>Create</Text> : <Logo fill="white" {...props} />}
         </View>
-        </View>
-        {user ? (
-          <TouchableOpacity
-            onPress={() => toggleModal(!isModalVisible)}
-            style={{ position: "absolute",height:50, width:100, 
-            top: height < 812 ? 38 : 76, 
-            right: -58, zIndex: 1240}}
-          >
-            <Menu fill={"white"} onPress={() => toggleModal(!isModalVisible)} />
-          </TouchableOpacity>
-        ) : null}
+      </View>
+      {user && user.uid ? (
+        <TouchableOpacity
+          onPress={() => toggleModal(!isModalVisible)}
+          style={{
+            position: "absolute", height: 50, width: 100,
+            top: height < 812 ? 38 : 76,
+            right: -58, zIndex: 1240
+          }}
+        >
+          <Menu fill={"white"} onPress={() => toggleModal(!isModalVisible)} />
+        </TouchableOpacity>
+      ) : null}
       <Modal
         coverScreen={true}
         isVisible={isModalVisible}
-        hasBackdrop={true}
+        hasBackdrop={false}
         deviceWidth={window.width}
-        style={{ margin: 0}}
+        style={{ margin: 0 }}
       >
         <View
           style={{
@@ -126,11 +130,7 @@ function Head(props) {
               onPress={() => toggleModal(!isModalVisible)}
             />
           </View>
-          <Text style={{ textAlign: "center", marginTop: 20 }}>
-            {user ? user.phoneNumber : ""}
-            <Text style={{color: "blue"}}>{height}</Text>
-          </Text>
-          <Button title="Logout" onPress={() => Logout()} />
+          <Button title="Logout" onPress={() => Logout()} width="100%" />
         </View>
       </Modal>
     </>

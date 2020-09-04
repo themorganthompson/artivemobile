@@ -2,7 +2,6 @@ import React, { Component, useState, useEffect, useRef } from "react";
 import Header from "../Components/header";
 import Moment from "moment";
 import firebase from "../firebase/firebase";
-import RateSheetComponent from "./RateSheet";
 import { AirbnbRating } from 'react-native-ratings';
 import FastImage from "react-native-fast-image";
 import Collapse from "../assets/static/collapse";
@@ -28,12 +27,12 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { AlignCenter } from "react-feather";
 
 const Posts = (props) => {
   let postz = [];
   const [sort] = useState({ sort: "total", order: "asc" });
   const [rating, setRating] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [alreadyCritiqued, setAlreadyCritiqued] = useState(false);
   let ordered = [];
   let chips = [
@@ -52,16 +51,6 @@ const Posts = (props) => {
   const [critique, setCritique] = useState({});
   const [postLoading, setPostLoading] = useState(true);
   const [chipsTouched, setChipsTouched] = useState([]);
-
-  const selectChip = (chip) => {
-    chipsTouched.push(chip);
-    setChipsTouched(chipsTouched);
-  }
-
-  const deSelectChip = (chip) => {
-    setChipsTouched(chipsTouched.filter(e => e !== chip));
-  }
-
   const deDupe = (array) => {
     return array.reduce((acc, current) => {
       const x = acc.find(item => item.key === current.key);
@@ -131,7 +120,7 @@ const Posts = (props) => {
       if (props.user) {
         setPosts(
           deDupe(ordered.sort((a, b) => (a[sort.sort] > b[sort.sort] ? 1 : -1))
-            .filter(i => i.author !== props.user.uid && getDays(i.submitted)))
+            .filter(i => getDays(i.submitted)))
         );
       } else if (!props.user) {
         setPosts(
@@ -176,7 +165,6 @@ const Posts = (props) => {
       ref.push({
         uid: props.user.uid,
         author: critique.author,
-        location: critique.location,
         imageLink: critique.imageLink,
         post: critique.key,
         comment: comment,
@@ -193,9 +181,10 @@ const Posts = (props) => {
         setChipsTouched([]);
         setIsModalVisible(false);
         setCritique({});
+        setComment("");
         setRating(0);
       });
-    }
+    } else {alert('no user');}
   }
 
   useEffect(
@@ -208,12 +197,12 @@ const Posts = (props) => {
     [posts]
   );
 
-  async function toggleCritique(post) {
+    function toggleCritique(post) {
     if (!isModalVisible) {
       var ref = firebase.database().ref("post-critiques/");
-      await setCritique(post);
+       setCritique(post);
       if (props.user) {
-        await ref.orderByChild("post").equalTo(post.key).once("value", (snapshot) => {
+         ref.orderByChild("post").equalTo(post.key).once("value", (snapshot) => {
           if (snapshot.val()) {
             let critiques = [];
             let list = [];
@@ -224,23 +213,18 @@ const Posts = (props) => {
             list = Object.values(critRes.map(x => x[1]));
             if (list.map(x => x.uid === props.user.uid).length > 0) {
               setAlreadyCritiqued(true);
-              return;
             };
           } else {
             setAlreadyCritiqued(false);
-            return;
           }
         });
 
         setIsModalVisible(true);
-        return;
       } else {
         setAlreadyCritiqued(false);
         setIsModalVisible(true);
-        return;
       }
     } else {
-      setChipsTouched([]);
       setIsModalVisible(false);
       setCritique({});
       setRating(0);
@@ -270,7 +254,7 @@ const Posts = (props) => {
 
   return (
     <>
-      <SafeAreaView style={{ marginBottom: 70, zIndex: 1 }}>
+      <SafeAreaView style={{ marginBottom: 280, zIndex: 1, height: '89%' }}>
         <ScrollView style={{ zIndex: 1 }}>
           {postLoading ? (
             <ActivityIndicator
@@ -312,7 +296,7 @@ const Posts = (props) => {
         <Modal
           coverScreen={true}
           isVisible={isModalVisible}
-          hasBackdrop={true}
+          hasBackdrop={false}
           deviceWidth={window.width}
           style={{ margin: 0 }}
         >

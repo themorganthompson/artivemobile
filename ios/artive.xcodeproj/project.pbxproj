@@ -71,7 +71,6 @@
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ratemyshot/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ratemyshot/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ratemyshot/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ratemyshot/main.m; sourceTree = "<group>"; };
 		1A73D1B36F2892DA0A67EE31 /* Pods-ratemyshot-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot-tvOS/Pods-ratemyshot-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		2083647151D237149746DF88 /* Pods-ratemyshot.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ratemyshot.debug.xcconfig"; path = "Target Support Files/Pods-ratemyshot/Pods-ratemyshot.debug.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +81,7 @@
 		646B97254955DDCBF5CFC562 /* libPods-ratemyshot-ratemyshotTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ratemyshot-ratemyshotTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EC8DEBD5964CE059FEC55D7 /* libPods-ratemyshot-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ratemyshot-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C01A02FA246D9B4A00FC79F9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C05D72042502B10600238FA8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0B7DFEE247478CF00006AE8 /* iPhone 11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 11.png"; sourceTree = "<group>"; };
 		C0B7DFEF247478D200006AE8 /* iPhone 8 Plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 8 Plus.png"; sourceTree = "<group>"; };
 		C0B7DFF0247478D500006AE8 /* iPhone 11 Pro Max.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone 11 Pro Max.png"; sourceTree = "<group>"; };
@@ -256,13 +256,6 @@
 		C0F7E0842476CB3500B12A4E /* Fontisto.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Fontisto.js; sourceTree = "<group>"; };
 		C0F7E0852476CB3500B12A4E /* FONTAWESOME5.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FONTAWESOME5.md; sourceTree = "<group>"; };
 		C0F7E0862476CB3500B12A4E /* MaterialCommunityIcons.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = MaterialCommunityIcons.js; sourceTree = "<group>"; };
-		C0F7E0942476CC1E00B12A4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C0F7E0962476CC1E00B12A4E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C0F7E0982476CC1E00B12A4E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		C0F7E09A2476CC2200B12A4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C0F7E09D2476CC2200B12A4E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		C0F7E0A02476CC2200B12A4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C0F7E0A22476CC2200B12A4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0F7E0AB2476CC2200B12A4E /* artiveTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = artiveTests.swift; sourceTree = "<group>"; };
 		C0F7E0AD2476CC2200B12A4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C0F7E0B62476CC2200B12A4E /* artiveUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = artiveUITests.swift; sourceTree = "<group>"; };
@@ -333,6 +326,7 @@
 		13B07FAE1A68108700A75B9A /* ratemyshot */ = {
 			isa = PBXGroup;
 			children = (
+				C05D72042502B10600238FA8 /* Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -343,7 +337,6 @@
 				C0B7DFF2247478DB00006AE8 /* iPhone 11 Pro.png */,
 				C0B7DFEE247478CF00006AE8 /* iPhone 11.png */,
 				C0B7DFF1247478D800006AE8 /* iPhone SE.png */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
@@ -385,7 +378,6 @@
 				13B07FAE1A68108700A75B9A /* ratemyshot */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* ratemyshotTests */,
-				C0F7E0932476CC1E00B12A4E /* artive */,
 				C0F7E0AA2476CC2200B12A4E /* artiveTests */,
 				C0F7E0B52476CC2200B12A4E /* artiveUITests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
@@ -737,28 +729,6 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
-		C0F7E0932476CC1E00B12A4E /* artive */ = {
-			isa = PBXGroup;
-			children = (
-				C0F7E0942476CC1E00B12A4E /* AppDelegate.swift */,
-				C0F7E0962476CC1E00B12A4E /* SceneDelegate.swift */,
-				C0F7E0982476CC1E00B12A4E /* ContentView.swift */,
-				C0F7E09A2476CC2200B12A4E /* Assets.xcassets */,
-				C0F7E09F2476CC2200B12A4E /* LaunchScreen.storyboard */,
-				C0F7E0A22476CC2200B12A4E /* Info.plist */,
-				C0F7E09C2476CC2200B12A4E /* Preview Content */,
-			);
-			path = artive;
-			sourceTree = "<group>";
-		};
-		C0F7E09C2476CC2200B12A4E /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				C0F7E09D2476CC2200B12A4E /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		C0F7E0AA2476CC2200B12A4E /* artiveTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -868,10 +838,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1170;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = D73X7YXDPQ;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
@@ -880,10 +851,12 @@
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = D73X7YXDPQ;
 						ProvisioningStyle = Automatic;
 					};
 					2D02E48F1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = D73X7YXDPQ;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 2D02E47A1E0B4A5D006451C7;
 					};
@@ -1298,14 +1271,6 @@
 			path = ratemyshot;
 			sourceTree = "<group>";
 		};
-		C0F7E09F2476CC2200B12A4E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C0F7E0A02476CC2200B12A4E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1313,6 +1278,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F34A5C7F884E5DD7A35FF4DC /* Pods-ratemyshot-ratemyshotTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1336,6 +1302,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CECB388A4822DA5E7E25167C /* Pods-ratemyshot-ratemyshotTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = ratemyshotTests/Info.plist;
@@ -1358,7 +1325,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D73X7YXDPQ;
 				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1367,7 +1334,7 @@
 				);
 				INFOPLIST_FILE = ratemyshot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1387,11 +1354,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D73X7YXDPQ;
 				INFOPLIST_FILE = ratemyshot/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 2.0.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -1542,8 +1509,9 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: mcthompson@crimson.ua.edu (6UH337RVRL)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = D73X7YXDPQ;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1561,7 +1529,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",
@@ -1602,8 +1570,9 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development: mcthompson@crimson.ua.edu (6UH337RVRL)";
 				COPY_PHASE_STRIP = YES;
+				DEVELOPMENT_TEAM = D73X7YXDPQ;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1614,7 +1583,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.7;
 				LD_RUNPATH_SEARCH_PATHS = "/usr/lib/swift $(inherited)";
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(TOOLCHAIN_DIR)/usr/lib/swift/$(PLATFORM_NAME)\"",

@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs(props) {
   const { dispatch } = props;
-  const [greetingStatus, displayGreeting] = useState(false);
+  const [greetingStatus, setGreetingStatus] = useState(false);
   const [ratePost, setRatePost] = useState({});
   const [currentRoute, setCurrentRoute] = useState();
   const [nextRoute, setNextRoute] = useState();
@@ -30,7 +30,7 @@ function MyTabs(props) {
 
   const togglePost = (post) => {
     setRatePost(post);
-    displayGreeting(!greetingStatus);
+    setGreetingStatus(!greetingStatus);
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,31 +38,22 @@ function MyTabs(props) {
     if (requestUser) {
       setUser(requestUser);
     } else {
+      if (!user.uid) {
+        setGreetingStatus(true);
+      } else {
+        setGreetingStatus(false);
+      }
     }
   };
-
-  // const onSwipe = (gestureName) => {
-  //   if (gestureName === 'SWIPE_LEFT') {
-  //     if (currentRoute == "Home") {
-  //       navigation.navigate("Post");
-  //     }
-  //     if (currentRoute == "Post") {
-  //       navigation.navigate("Contests");
-  //     }
-  //   }
-  //   if (gestureName === 'SWIPE_RIGHT') {
-  //     if (currentRoute == "Contests") {
-  //       navigation.navigate("Post");
-  //     }
-  //     if (currentRoute == "Post") {
-  //       navigation.navigate("Home");
-  //     }
-  //   }
-  // };
 
   useEffect(() => {
     SplashScreen.hide();
     // eslint-disable-next-line no-shadow
+    if (!user.uid) {
+      setGreetingStatus(true);
+    } else {
+      setGreetingStatus(false);
+    }
     auth().onAuthStateChanged((thisuser) => {
       onAuthStateChanged(thisuser);
     });
@@ -97,65 +88,54 @@ function MyTabs(props) {
           };
 
           return (
-            <TouchableOpacity
-              key={route.key}
-              accessibilityRole="button"
-              accessibilityStates={isFocused ? ["selected"] : []}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}
-              style={{
-                flex: 1,
-                height: height < 812 ? 40 : 60,
-                width: 100,
-                paddingLeft: 50,
-                paddingTop: 20,
-                marginTop: 0,
-                marginBottom: height < 812 ? 0 : 20,
-                paddingRight: 50,
-                textAlign: "center",
-                alignItems: "center",
-                paddingBottom: height < 812 ? 40 : 50,
-              }}
-            >
-              <View style={{ display: !greetingStatus ? "flex" : "none", marginTop: 0 }}>
-                {route.name === "Home" || route.name === "Login" ? (
-                  <Home fill={isFocused ? "#FBC02D" : "#222"} />
-                ) : route.name === "Post" ? (
-                  <Camera fill={isFocused ? "#FBC02D" : "#222"} />
-                ) : route.name === "Contests" ? (
-                  <Trophy fill={isFocused ? "#FBC02D" : "#222"} />
-                ) : null}
-              </View>
-            </TouchableOpacity>
+            route.name !== "Login" ?
+              <TouchableOpacity
+                key={route.key}
+                accessibilityRole="button"
+                accessibilityStates={isFocused ? ["selected"] : []}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarTestID}
+                onPress={onPress}
+                onLongPress={onLongPress}
+                style={{
+                  flex: 1,
+                  height: height < 812 ? 40 : 60,
+                  width: 100,
+                  paddingLeft: 50,
+                  paddingTop: 20,
+                  marginTop: 0,
+                  marginBottom: height < 812 ? 0 : 20,
+                  paddingRight: 50,
+                  textAlign: "center",
+                  alignItems: "center",
+                  paddingBottom: height < 812 ? 40 : 50,
+                }}
+              >
+                <View style={{ display: !greetingStatus ? "flex" : "none", marginTop: 0 }}>
+                  {route.name === "Home" ? (
+                    <Home fill={isFocused ? "#FBC02D" : "#222"} />
+                  ) : route.name === "Post" ? (
+                    <Camera fill={isFocused ? "#FBC02D" : "#222"} />
+                  ) : route.name === "Contests" ? (
+                    <Trophy fill={isFocused ? "#FBC02D" : "#222"} />
+                  ) : null}
+                </View>
+              </TouchableOpacity> : null
           );
         })}
       </View>
     );
   }
 
-  // const config = {
-  //   velocityThreshold: 0.2,
-  //   directionalOffsetThreshold: 10,
-  // };
-
   function HomeScreen() {
     return (
       <>
-        {/* <GestureRecognizer
-          onSwipe={(direction) => onSwipe(direction)}
-          config={config}
-          style={{
-            flex: 1,
-          }}
-        > */}
         <HomeComponent
+          navigation={navigation}
           togglePost={(post) => togglePost(post)}
           user={user}
           {...props}
         />
-        {/* </GestureRecognizer> */}
       </>
     );
   }
@@ -163,15 +143,7 @@ function MyTabs(props) {
   function PostScreen() {
     return (
       <>
-        {/* <GestureRecognizer
-          onSwipe={(direction) => onSwipe(direction)}
-          config={config}
-          style={{
-            flex: 1,
-          }}
-        > */}
         <Post {...props} />
-        {/* </GestureRecognizer> */}
       </>
     );
   }
@@ -179,15 +151,7 @@ function MyTabs(props) {
   function ContestsScreen() {
     return (
       <>
-        {/* <GestureRecognizer
-          onSwipe={(direction) => onSwipe(direction)}
-          config={config}
-          style={{
-            flex: 1,
-          }}
-        > */}
         <ContestsComponent {...props} />
-        {/* </GestureRecognizer> */}
       </>
     );
   }
@@ -202,17 +166,14 @@ function MyTabs(props) {
 
   return (
     <NavigationContainer>
-      {user.uid !== undefined ? (
-        <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
-          <Tab.Screen name="Home" component={HomeScreen} />
-          <Tab.Screen name="Post" component={PostScreen} />
-          <Tab.Screen name="Contests" component={ContestsScreen} />
-        </Tab.Navigator>
-      ) : (
-          <Tab.Navigator tabBar={(props) => <View />}>
-            <Tab.Screen name="Login" component={LoginScreen} />
-          </Tab.Navigator>
-        )}
+      <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
+
+        {!user.uid ?
+          <Tab.Screen name="Login" component={LoginScreen} /> :
+          <Tab.Screen name="Home" component={HomeScreen} />}
+        <Tab.Screen name="Post" component={PostScreen} />
+        <Tab.Screen name="Contests" component={ContestsScreen} />
+      </Tab.Navigator>
     </NavigationContainer>
   );
 }
